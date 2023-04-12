@@ -3,7 +3,7 @@ name: Example add-on my version
 version: "1.2.0"
 slug: example_myversion
 description: Example add-on
-url: "https://github.com/home-assistant/addons-example/tree/main/example"
+url: "https://github.com/Skeletitor/MyFirstTest"
 arch:
   - armhf
   - armv7
@@ -17,4 +17,4 @@ options:
   message: "Hello world..."
 schema:
   message: "str?"
-image: "ghcr.io/home-assistant/{arch}-addon-example"
+image: "ghcr.io/skeletitor/{arch}-addon-example"
