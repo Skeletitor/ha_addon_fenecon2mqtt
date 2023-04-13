@@ -13,7 +13,6 @@ arch:
 init: false
 map:
   - share:rw
-apparmor: true
 discovery:
   - mqtt
 ingress: false
