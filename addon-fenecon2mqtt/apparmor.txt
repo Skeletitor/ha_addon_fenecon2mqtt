@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile addon-fenecon2mqtt flags=(attach_disconnected,mediate_deleted) {
+profile fenecon2mqtt flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
