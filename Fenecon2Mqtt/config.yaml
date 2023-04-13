@@ -1,8 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: Example add-on my version
-version: "0.0.18"
-slug: example_myversion
-description: Example add-on
+name: Hassio addon - Fenecon2Mqtt
+version: "0.0.20"
+slug: fenecon2mqtt
+description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/MyFirstTest"
 arch:
   - armhf
@@ -18,14 +18,13 @@ discovery:
   - mqtt
 ingress: false
 options:
-  message: "Hello world..."
-  option1: "Text12"
-  log_level: info
+  #message: "Hello world..."
+  #option1: "Text12"
   hassio:
     mqtt_broker_host: "<<IP or DNS Name of MQTT broker>>"
     mqtt_broker_port: 1883
     mqtt_broker_user: "<<mqtt Username>>"
-    mqtt_broker_passwd: "<<mqtt Username>>"
+    mqtt_broker_passwd: "<<mqtt Password>>"
     mqtt_broker_keepalive: 60
     mqtt_broker_hassio_discovery_queue: "homeassistant/sensor/fenecon"
     mqtt_broker_hassio_queue: "fenecon"
@@ -80,10 +79,10 @@ options:
       - "_sum/GridSellActiveEnergy"
       - "_sum/EssDcDischargeEnergy"
       - "_sum/EssDcChargeEnergy"
+  log_level: INFO
 schema:
-  message: "str?"
-  option1: "str?"
-  log_level: list(trace|debug|info|notice|warning|error|fatal)
+  #message: "str?"
+  #option1: "str?"
   hassio:
     mqtt_broker_host: "str?"
     mqtt_broker_port: "int(1024,65535)?"
@@ -97,4 +96,5 @@ schema:
     password: "str?"
     request_channels:
       - "str?"
+  log_level: list(CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET)
 #image: "ghcr.io/skeletitor/{arch}-addon-example"
