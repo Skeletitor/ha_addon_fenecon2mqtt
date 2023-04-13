@@ -6,7 +6,6 @@ profile Fenecon2Mqtt flags=(attach_disconnected,mediate_deleted) {
   # Capabilities
   file,
   signal (send) set=(kill,term,int,hup,cont),
-  complain,
 
   # S6-Overlay
   /init ix,
@@ -33,7 +32,6 @@ profile Fenecon2Mqtt flags=(attach_disconnected,mediate_deleted) {
 
   profile fenecon2mqtt.sh flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
-    complain,
     # Receive signals from S6-Overlay
     #signal (receive) peer=*_example,
     signal (receive) peer=Fenecon2Mqtt,
