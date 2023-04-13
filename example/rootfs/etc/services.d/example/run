@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
 # ==============================================================================
 # Start the example service
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
@@ -7,13 +8,15 @@
 # Add your code here
 
 # Declare variables
-declare message
+#declare message
 
 ## Get the 'message' key from the user config options.
-message=$(bashio::config 'message')
+#message=$(bashio::config 'message')
 
 ## Print the message the user supplied, defaults to "Hello World..."
-bashio::log.info "${message:="Hello World..."}"
+#bashio::log.info "${message:="Hello World..."}"
+
+bashio::log.info "Starting Fenecon2Mqtt}"
 
 ## Run your program
-exec /usr/bin/my_program
+exec /usr/bin/fenecon2mqtt.sh

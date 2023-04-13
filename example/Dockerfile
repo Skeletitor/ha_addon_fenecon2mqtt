@@ -8,5 +8,15 @@ RUN \
     curl -sSLf -o /usr/bin/tempio \
     "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
 
+# Copy and install Python requirements
+COPY requirements.txt /tmp/
+
+RUN cd /tmp \
+    && pip3 install \
+        --no-cache-dir \
+        --prefer-binary \
+        --find-links "https://wheels.home-assistant.io/alpine-3.17.3/${BUILD_ARCH}/" \
+        -r ./requirements.txt
+
 # Copy root filesystem
 COPY rootfs /

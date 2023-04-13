@@ -28,9 +28,9 @@ profile example flags=(attach_disconnected,mediate_deleted) {
   /data/** rw,
 
   # Start new profile for service
-  /usr/bin/my_program cx -> my_program,
+  /usr/bin/fenecon2mqtt.sh cx -> fenecon2mqtt.sh,
 
-  profile my_program flags=(attach_disconnected,mediate_deleted) {
+  profile fenecon2mqtt.sh flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
 
     # Receive signals from S6-Overlay
@@ -48,7 +48,12 @@ profile example flags=(attach_disconnected,mediate_deleted) {
     # 2. Add `complain` as a flag to this profile temporarily and run the addon
     # 3. Review the audit log with `journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'` and add other access as needed
     # Remember to remove the `complain` flag when you are done
-    /usr/bin/my_program r,
+    /usr/bin/fenecon2mqtt.sh rix,
+    /usr/bin/fenecon2mqtt/config.py r,
+    /usr/bin/fenecon2mqtt/Fenecon2Mqtt.py r,
+    /usr/bin/fenecon2mqtt/FeneconClientSocket.py r,
+    /usr/bin/fenecon2mqtt/HassioMqttClient.py r,
+    /usr/bin/fenecon2mqtt/publish_hassio_discovery.py r,
     /bin/bash rix,
     /bin/echo ix,
     /etc/passwd r,

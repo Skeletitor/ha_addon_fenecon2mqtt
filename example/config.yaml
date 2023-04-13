@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Example add-on my version
-version: "1.2.0"
+version: "0.0.18"
 slug: example_myversion
 description: Example add-on
 url: "https://github.com/Skeletitor/MyFirstTest"
@@ -13,8 +13,88 @@ arch:
 init: false
 map:
   - share:rw
+apparmor: true
+discovery:
+  - mqtt
+ingress: false
 options:
   message: "Hello world..."
+  option1: "Text12"
+  log_level: info
+  hassio:
+    mqtt_broker_host: "<<IP or DNS Name of MQTT broker>>"
+    mqtt_broker_port: 1883
+    mqtt_broker_user: "<<mqtt Username>>"
+    mqtt_broker_passwd: "<<mqtt Username>>"
+    mqtt_broker_keepalive: 60
+    mqtt_broker_hassio_discovery_queue: "homeassistant/sensor/fenecon"
+    mqtt_broker_hassio_queue: "fenecon"
+  fenecon:
+    uri: "ws://<<IP of Fenecon Home>>:8085/websocket"
+    password: "<<Password of guest user>>"
+    request_channels:
+      - "_sum/State"
+      - "_sum/EssSoc"
+      - "_sum/EssActivePower"
+      - "_sum/State"
+      - "_sum/EssSoc"
+      - "_sum/EssActivePower"
+      - "_sum/EssActivePowerL1"
+      - "_sum/EssActivePowerL2"
+      - "_sum/EssActivePowerL3"
+      - "_sum/EssMaxApparentPower"
+      - "_sum/GridMode"
+      - "_sum/GridMinActivePower"
+      - "_sum/GridMaxActivePower"
+      - "_sum/GridActivePower"
+      - "_sum/GridActivePowerL1"
+      - "_sum/GridActivePowerL2"
+      - "_sum/GridActivePowerL3"
+      - "_sum/ProductionActivePower"
+      - "_sum/ProductionDcActualPower"
+      - "_sum/ProductionAcActivePower"
+      - "_sum/ProductionMaxActivePower"
+      - "_sum/ConsumptionActivePower"
+      - "_sum/ConsumptionActivePowerL1"
+      - "_sum/ConsumptionActivePowerL2"
+      - "_sum/ConsumptionActivePowerL3"
+      - "_sum/ConsumptionMaxActivePower"
+      - "ctrlPrepareBatteryExtension0/CtrlIsBlockingEss"
+      - "ctrlPrepareBatteryExtension0/CtrlIsChargingEss"
+      - "ctrlPrepareBatteryExtension0/CtrlIsDischargingEss"
+      - "ctrlPrepareBatteryExtension0/_PropertyIsRunning"
+      - "charger0/ActualPower"
+      - "charger1/ActualPower"
+      - "ctrlGridOptimizedCharge0/DelayChargeState"
+      - "ctrlGridOptimizedCharge0/SellToGridLimitState"
+      - "ctrlGridOptimizedCharge0/DelayChargeMaximumChargeLimit"
+      - "ctrlGridOptimizedCharge0/SellToGridLimitMinimumChargeLimit"
+      - "ctrlGridOptimizedCharge0/_PropertyMode"
+      - "ess0/Soc"
+      - "ess0/Capacity"
+      - "ess0/DcDischargePower"
+      - "charger0/ActualPower"
+      - "charger1/ActualPower"
+      - "_sum/ProductionActiveEnergy"
+      - "_sum/GridBuyActiveEnergy"
+      - "_sum/GridSellActiveEnergy"
+      - "_sum/EssDcDischargeEnergy"
+      - "_sum/EssDcChargeEnergy"
 schema:
   message: "str?"
-image: "ghcr.io/skeletitor/{arch}-addon-example"
+  option1: "str?"
+  log_level: list(trace|debug|info|notice|warning|error|fatal)
+  hassio:
+    mqtt_broker_host: "str?"
+    mqtt_broker_port: "int(1024,65535)?"
+    mqtt_broker_user: "str?"
+    mqtt_broker_passwd: "str?"
+    mqtt_broker_keepalive: "int"
+    mqtt_broker_hassio_discovery_queue: "str?"
+    mqtt_broker_hassio_queue: "str?"
+  fenecon:
+    uri: "str?"
+    password: "str?"
+    request_channels:
+      - "str?"
+#image: "ghcr.io/skeletitor/{arch}-addon-example"
