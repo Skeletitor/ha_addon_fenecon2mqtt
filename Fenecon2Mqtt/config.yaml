@@ -95,4 +95,4 @@ schema:
     request_channels:
       - "str?"
   log_level: list(CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET)
-image: "ghcr.io/skeletitor/{arch}-addon-fenecon2mqtt"
+#image: "ghcr.io/skeletitor/{arch}-addon-fenecon2mqtt"

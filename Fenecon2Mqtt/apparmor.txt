@@ -34,7 +34,7 @@ profile Fenecon2Mqtt flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     # Receive signals from S6-Overlay
     #signal (receive) peer=*_example,
-    signal (receive) peer=Fenecon2Mqtt,
+    signal (receive) peer=*fenecon2mqtt,
 
     # Access to options.json and other files within your addon
     /data/** rw,
