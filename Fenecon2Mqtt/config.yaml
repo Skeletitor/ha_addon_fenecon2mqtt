@@ -1,7 +1,7 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Hassio addon - Fenecon2Mqtt
-version: "0.0.20"
-slug: fenecon2mqtt
+version: "0.1.0"
+slug: Fenecon2Mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/MyFirstTest"
 arch:
@@ -15,7 +15,6 @@ map:
   - share:rw
 discovery:
   - mqtt
-ingress: false
 options:
   #message: "Hello world..."
   #option1: "Text12"
