@@ -6,4 +6,4 @@ set -e
 #cp /data/options.json /share/options.json
 #python3 --version > /share/python_version.txt
 #pip3 --version > /share/pip_version.txt
-python3 /usr/bin/fenecon2mqtt/Fenecon2Mqtt.py 2>&1
+python3 /usr/bin/fenecon2mqtt/Fenecon2Mqtt.py

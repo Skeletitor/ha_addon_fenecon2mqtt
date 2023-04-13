@@ -16,7 +16,7 @@
 ## Print the message the user supplied, defaults to "Hello World..."
 #bashio::log.info "${message:="Hello World..."}"
 
-bashio::log.info "Starting Fenecon2Mqtt}"
+bashio::log.info "Starting Fenecon2Mqtt"
 
 ## Run your program
 exec /usr/bin/fenecon2mqtt.sh

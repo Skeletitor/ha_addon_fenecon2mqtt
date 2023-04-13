@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile example flags=(attach_disconnected,mediate_deleted) {
+profile Fenecon2Mqtt flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
@@ -28,9 +28,9 @@ profile example flags=(attach_disconnected,mediate_deleted) {
   /data/** rw,
 
   # Start new profile for service
-  /usr/bin/fenecon2mqtt.sh cx -> fenecon2mqtt.sh,
+  /usr/bin/fenecon2mqtt.sh cx -> Fenecon2Mqtt,
 
-  profile fenecon2mqtt.sh flags=(attach_disconnected,mediate_deleted) {
+  profile Fenecon2Mqtt flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
 
     # Receive signals from S6-Overlay
