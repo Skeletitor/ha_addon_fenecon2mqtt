@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
-name: Example Home Assistant add-on repository
+name: Skeletitors Home Assistant add-on repository
 url: "https://github.com/Skeletitor/hassio_addons"
 maintainer: Tobias Roehmer <Tobias.Roehmer@outlook.de>
