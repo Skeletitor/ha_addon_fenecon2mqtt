@@ -13,7 +13,7 @@ COPY requirements.txt /tmp/
 
 RUN cd /tmp \
     && apk add apparmor \
-    && apk add apparmor-utils \
+    && apk add apparmor-utils
 
 RUN cd /tmp \
     && pip3 install \
