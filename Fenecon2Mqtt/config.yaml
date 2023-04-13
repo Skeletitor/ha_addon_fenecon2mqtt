@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: Hassio addon - Fenecon2Mqtt
+name: Fenecon2Mqtt
 version: "0.1.0"
 slug: Fenecon2Mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
