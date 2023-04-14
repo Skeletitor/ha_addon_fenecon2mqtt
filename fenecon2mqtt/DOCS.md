@@ -13,3 +13,4 @@
 - Apparmor configuration
 - Documentation
 - redesign container confiuguration
+- write FEMS edge config to /share/Fenecon (local configuration with all available channels)
