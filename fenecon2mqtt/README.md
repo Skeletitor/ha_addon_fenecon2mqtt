@@ -11,7 +11,7 @@
 
 This add-on connects to Fenecon Home (FEMS) websocket and subscribes to the configured channels. This data is pushed to Hassio integrated mqtt broker. All sensors(entities) are added autmatically.
 
-Thanks goes to '@benniju' who gives the idea of using websocket.
+Thanks goes to @benniju who gives the idea of using websocket.
 
 ## Requirements
 
