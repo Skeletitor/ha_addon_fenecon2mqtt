@@ -10,16 +10,7 @@
 ![Supports armv7 Architecture][armv7-shield]
 ![Supports i386 Architecture][i386-shield]
 
-![Fenecon2Mqtt add-on](logo.png)
-
-
-
-
-
-
-
-
-
+This add-on connects to Fenecon Home FEMS websocket and subscribes to the configured channels. Thanks goes to 'benniju' who gives the idea of using websocket.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
