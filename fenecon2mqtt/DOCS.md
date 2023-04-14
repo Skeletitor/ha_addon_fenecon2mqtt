@@ -1,15 +1,15 @@
-# Home Assistant Add-on: Example add-on
+# Home Assistant Add-on: Fenecon2Mqtt
 
 ## How to use
 
-This add-on really does nothing. It is just an example.
+### Requirements
 
-When started it will print the configured message or "Hello world" in the log.
-
-It will also print "All done!" in `/share/example_addon_output.txt` to show
-simple example of the usage of `map` in addon config.
+1. Homeassistant with a running Supervisor
+2. Fenecon Home EnergyStorage System (Maybee FEMS only works too)
+3. MQTT Addon 'Mosquitto broker' https://github.com/home-assistant/addons/tree/master/mosquitto
 
 ## TODO
 
 - Apparmor configuration
 - Documentation
+- redesign container confiuguration
