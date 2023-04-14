@@ -19,17 +19,20 @@ class FeneconClientSocket:
     uuid_str_subscribe_request = str(uuid.uuid4())
 
     # JSON request templates
-    json_auth_passwd = request_json("authenticateWithPassword", params={"password":config.fenecon['password']}, id=uuid_str_auth)
+    json_auth_passwd = request_json("authenticateWithPassword", params={"password":config.fenecon['fems_password']}, id=uuid_str_auth)
     json_get_edge = request_json("getEdge", params={"edgeId":"0"}, id=uuid_str_getEdge)
     json_get_edgeconfig_payload = request_json("getEdgeConfig", params={" ": " "}, id=uuid_str_getEdgeConfig_payload)
     json_get_edgeconfig_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_edgeconfig_payload)}, id=uuid_str_getEdgeConfig_request)
-    json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.fenecon['request_channels']}, id=uuid_str_subscribe_payload)
+    json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.fenecon['fems_request_channels']}, id=uuid_str_subscribe_payload)
     json_subscribe_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
 
     def __init__(self, mqtt):
         self.mqtt = mqtt
         self.opened = False
-        self.ws = websocket.WebSocketApp(config.fenecon['uri'],
+        #ws://<<IP of Fenecon Home>>:8085/websocket
+        # str(f"fems-{key}")
+        ws_uri = str(f"ws://{config.fenecon['fems_ip']}:8085/websocket")
+        self.ws = websocket.WebSocketApp(ws_uri ,
                                          on_open=self.on_open,
                                          on_message=self.on_message,
                                          on_error=self.on_error,
@@ -54,7 +57,6 @@ class FeneconClientSocket:
 
         if msg_dict.get('id') is None and msg_curent_data:
             #print(msg_curent_data)
-            #self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + "2ed", "Tesst")
             keys = list(msg_curent_data.keys())
             for key in keys:
                 self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + str(f"fems-{key}").replace("/", "_"), str(msg_curent_data[key]))

@@ -34,7 +34,7 @@ json_template_entity = {
         }
     }
 
-def get_entity_class(unit):
+def get_entity_device_class(unit):
     def_cla = "None"
     if unit == "%":
         def_cla = "battery"
@@ -46,16 +46,47 @@ def get_entity_class(unit):
         def_cla = "voltage"
     elif unit == ["A", "mA"]:
         def_cla = "current"
+    elif unit == "C":
+        def_cla = "temperature"
     return def_cla
+
+def get_entity_state_class(device_class):
+    state_class = None
+    if device_class == "energy":
+        state_class = "total_increasing"
+    else:
+        state_class = "measurement"
+    return state_class
+
+def get_entity_device_unit(fenecon_unit):
+    return fenecon_unit
+
+def get_entity_value_template(value_template):
+    return value_template
+
+def get_hassio_overwrite(channel, config):
+    overwrite_channel = None
+    overwrite_device_class = None
+    overwrite_state_class = None
+    overwrite_device_unit = None
+    overwrite_value_template = None
+    #"channel;device_class;state_class;device_unit;value_template"
+    for overwrite in config:
+        try:
+            overwrite_channel, overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template = overwrite.split(';')
+        except Exception:
+            print(f"ERROR: Hassio overwrite can not be parsed ({overwrite})")
+            continue
+        if channel == overwrite_channel:
+            print(" ** Hassio sensor overwrite found **")
+            return overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template
+    return None, None, None, None
 
 def publish_hassio_discovery(mqtt, fenecon_config, version):
     print(' ** start publish hassio dicovery **')
-    # manage all different Fenecon devices in one Hassio device, publish device
-    #json_template_device['dev']['sw'] = version
-    #mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "config", json.dumps(json_template_device))
 
     i = 0
-    for c in config.fenecon['request_channels']:
+    for c in config.fenecon['fems_request_channels']:
         component, channel = c.split('/')
         hassio_uid = str(f"fems-{c}").replace("/", "_")
         # Data structure fenecon_config
@@ -72,11 +103,19 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             print(f"ERROR: configured channel is not available in Fenecon system configuration ({c})")
             continue
 
-        json_template_entity['name'] = c
+        # check for overwrites
+        ow_device_class, ow_state_class, ow_device_unit, ow_value_template = get_hassio_overwrite(c, config.hassio['sensor_overwrite'])
+
+        json_template_entity['name'] = str(f"FEMS: {c}")
         json_template_entity['uniq_id'] = hassio_uid
-        json_template_entity['unit_of_meas'] = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit']
-        json_template_entity['val_tpl'] = "{{value}}"
-        json_template_entity['dev_cla'] =  get_entity_class(json_template_entity['unit_of_meas'])
+        #json_template_entity['unit_of_meas'] = get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
+        json_template_entity['unit_of_meas'] = ow_device_unit if ow_device_unit else get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
+        #json_template_entity['val_tpl'] = get_entity_value_template("{{value}}")
+        json_template_entity['val_tpl'] = ow_value_template if ow_value_template else get_entity_value_template("{{value}}")
+        #json_template_entity['dev_cla'] =  get_entity_device_class(json_template_entity['unit_of_meas'])
+        json_template_entity['dev_cla'] =  ow_device_class if ow_device_class else get_entity_device_class(json_template_entity['unit_of_meas'])
+        #json_template_entity['stat_cla'] =  get_entity_state_class(json_template_entity['dev_cla'])
+        json_template_entity['stat_cla'] =  ow_state_class if ow_state_class else get_entity_state_class(json_template_entity['dev_cla'])
         json_template_entity['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
 
         #print(config.hassio['mqtt_broker_hassio_discovery_queue'] + hassio_uid + "/config")

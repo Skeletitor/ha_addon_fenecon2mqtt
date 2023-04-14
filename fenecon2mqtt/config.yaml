@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.1.1"
+version: "0.1.2"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/MyFirstTest"
@@ -26,10 +26,14 @@ options:
     mqtt_broker_keepalive: 60
     mqtt_broker_hassio_discovery_queue: "homeassistant/sensor/fenecon"
     mqtt_broker_hassio_queue: "fenecon"
+    sensor_overwrite:
+      - "channel;device_class;state_class;device_unit;value_template"
+      - "battery0/Tower0PackVoltage;voltage;measurement;V;{{value}}"
   fenecon:
-    uri: "ws://<<IP of Fenecon Home>>:8085/websocket"
-    password: "<<Password of guest user>>"
-    request_channels:
+    #uri: "ws://<<IP of Fenecon Home>>:8085/websocket"
+    fems_ip: "<<IP or DNS Name of Fenecon Home/FEMS>>"
+    fems_password: "<<Password of guest user>>"
+    fems_request_channels:
       - "_sum/State"
       - "_sum/EssSoc"
       - "_sum/EssActivePower"
@@ -77,22 +81,23 @@ options:
       - "_sum/GridSellActiveEnergy"
       - "_sum/EssDcDischargeEnergy"
       - "_sum/EssDcChargeEnergy"
+      - "battery0/Tower0PackVoltage"
   log_level: INFO
 schema:
-  #message: "str?"
-  #option1: "str?"
   hassio:
-    mqtt_broker_host: "str?"
-    mqtt_broker_port: "int(1024,65535)?"
-    mqtt_broker_user: "str?"
-    mqtt_broker_passwd: "str?"
+    mqtt_broker_host: "str"
+    mqtt_broker_port: "int(1024,65535)"
+    mqtt_broker_user: "str"
+    mqtt_broker_passwd: "str"
     mqtt_broker_keepalive: "int"
-    mqtt_broker_hassio_discovery_queue: "str?"
-    mqtt_broker_hassio_queue: "str?"
-  fenecon:
-    uri: "str?"
-    password: "str?"
-    request_channels:
+    mqtt_broker_hassio_discovery_queue: "str"
+    mqtt_broker_hassio_queue: "str"
+    sensor_overwrite:
       - "str?"
+  fenecon:
+    fems_ip: "str"
+    fems_password: "str"
+    fems_request_channels:
+      - "str"
   log_level: list(CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET)
 image: "ghcr.io/skeletitor/{arch}-addon-fenecon2mqtt"
