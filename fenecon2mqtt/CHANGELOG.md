@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.5
+
+- fixed some typos
+- added workaround for failing data publishing when restarting homeassistant
+
 ## 0.1.4
 
 - switched to to correct state topic when publishing values

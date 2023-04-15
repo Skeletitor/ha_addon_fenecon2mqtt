@@ -13,6 +13,33 @@ This add-on connects to Fenecon Home (FEMS) websocket and subscribes to the conf
 
 Thanks goes to [@benniju] who gives the idea of using websocket.
 
+### !!! Add-on need to be restarted when Homeassistant restarts
+
+I wasn't able to figure out why and it seems that I'm not alone [github-issue].
+
+The easiest way is to add an automation:
+
+```yaml
+{
+alias: Restart fenecon2mqtt add-on
+description: ""
+trigger:
+  - platform: homeassistant
+    event: start
+condition: []
+action:
+  - service: hassio.addon_restart
+    data:
+      addon: sontainerID_fenecon2mqtt
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+mode: single
+}
+```
+
 ## Requirements
 
 1. Homeassistant with a running Supervisor
@@ -42,3 +69,4 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
+[github-issue]: https://github.com/home-assistant/addons/issues/2618

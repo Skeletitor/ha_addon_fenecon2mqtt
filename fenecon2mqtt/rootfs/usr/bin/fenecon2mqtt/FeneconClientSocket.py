@@ -89,7 +89,7 @@ class FeneconClientSocket:
             logger.info("Edgeconfig -> trigger Hassio discovery")
             publish_hassio_discovery(self.mqtt, msg_dict, self.version)
             if self.is_docker():
-                logger.info("Dump Fenecon configration to local docker filesystem")
+                logger.info("Dump Fenecon configuration to local docker filesystem")
                 try:
                     with open('/share/fenecon/fenecon_config.json', 'w') as fp:
                         json.dump(msg_dict, fp)
