@@ -12,6 +12,5 @@
 
 - Apparmor configuration
 - Documentation
-- write FEMS edge config to /share/Fenecon (local configuration with all available channels)
 
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)

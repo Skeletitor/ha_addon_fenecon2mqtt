@@ -1,5 +1,13 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.3
+
+- changed reconnect handling for Mqtt and Feencon
+- switched to logger. Logfiles under /share/fenecon/
+- added custom prefix for hassion uid's in container config
+- changed sensor uid's to be more hassio style like
+- dump Fenecons configuration as json to /share/fenecon/fenecon_config.json
+
 ## 0.1.2
 
 - ‼️ changed container configuration -> **redeploy addon do not not update**

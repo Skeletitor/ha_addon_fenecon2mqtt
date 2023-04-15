@@ -7,9 +7,11 @@ import uuid
 import time
 from jsonrpcclient import Ok, parse_json, request_json
 from publish_hassio_discovery import publish_hassio_discovery
+import logging
+import os
 
 class FeneconClientSocket:
-    version = ''
+    version = None
     # Static uuids for request
     uuid_str_auth = str(uuid.uuid4())
     uuid_str_getEdge = str(uuid.uuid4())
@@ -27,10 +29,22 @@ class FeneconClientSocket:
     json_subscribe_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
 
     def __init__(self, mqtt):
+        logger = logging.getLogger(__name__)
         self.mqtt = mqtt
-        self.opened = False
+        #self.opened = False
+        self.connect_retry_counter = 0
+        self.connect_retry_max = 10
+        self.connect_websocket()
+
+    def is_docker(self):
+        path = '/proc/self/cgroup'
+        return (
+            os.path.exists('/.dockerenv') or
+            os.path.isfile(path) and any('docker' in line for line in open(path))
+        )
+    
+    def connect_websocket(self):
         #ws://<<IP of Fenecon Home>>:8085/websocket
-        # str(f"fems-{key}")
         ws_uri = str(f"ws://{config.fenecon['fems_ip']}:8085/websocket")
         self.ws = websocket.WebSocketApp(ws_uri ,
                                          on_open=self.on_open,
@@ -43,7 +57,8 @@ class FeneconClientSocket:
         rel.dispatch()
 
     def on_message(self, ws, message):
-        #print("*** on message ***")
+        logger = logging.getLogger(__name__)
+        logger.debug("on_message")
         msg_dict = json.loads(message)
 
         msg_id = msg_dict.get('id')
@@ -56,35 +71,58 @@ class FeneconClientSocket:
             msg_curent_data = None
 
         if msg_dict.get('id') is None and msg_curent_data:
-            #print(msg_curent_data)
+            # process subscribed data
             keys = list(msg_curent_data.keys())
             for key in keys:
                 self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + str(f"fems-{key}").replace("/", "_"), str(msg_curent_data[key]))
 
         elif msg_id == self.uuid_str_auth:
+            # process authorization reqest
             return
         elif msg_id == self.uuid_str_getEdge:
+            # process edge data
             self.version = msg_dict['result']['edge']['version']
             return
         elif msg_id == self.uuid_str_getEdgeConfig_request:
-            print(" ** Edgeconfig -> trigger Hassio discovery ** ")
+            # process edge configuration data
+            logger.info("Edgeconfig -> trigger Hassio discovery")
             publish_hassio_discovery(self.mqtt, msg_dict, self.version)
+            if self.is_docker():
+                logger.info("Dump Fenecon configration to local docker filesystem")
+                try:
+                    with open('/share/fenecon/fenecon_config.json', 'w') as fp:
+                        json.dump(msg_dict, fp)
+                except Exception:
+                    logger.error("Dump Fenecon configration to local docker filesystem failed")
             return
 
     def on_error(self, ws, error):
-        print("FeneconClientSocket: on_error")
-        print(error)
+        logger = logging.getLogger(__name__)
+        logger.error(f'Fenecon connection error: {error}')
 
     def on_close(self, ws, close_status_code, close_msg):
-        print("FeneconClientSocket: on_close")
-        rel.abort()
-        self.ws.run_forever(dispatcher=rel)
-        rel.signal(2, rel.abort)
-        rel.dispatch()
+        logger = logging.getLogger(__name__)
+        logger.warning(f'Fenecon sonnection closed. Code:    {close_status_code}')
+        logger.warning(f'                           Message: {close_msg}')
+        logger.warning('try again in 30 seconds')
+        time.sleep(30)
+        self.connect_retry_counter += 1
+        if self.connect_retry_max >= self.connect_retry_counter:
+            logger.warning(f'Trying to connect ({self.connect_retry_counter}/{self.connect_retry_max}). Fenecon not reachable. Check availability and config.')
+            logger.warning(f'  Fenecon IP    : {config.fenecon["fems_ip"]}')
+            self.connect_websocket()
+        else:
+            logger.error('Fenecon not reachable. Exit!')
+            quit()
+        #rel.abort()
+        #self.ws.run_forever(dispatcher=rel)
+        #rel.signal(2, rel.abort)
+        #rel.dispatch()
 
     def on_open(self, ws):
-        print("FeneconClientSocket: on_open")
-        #time.sleep(1)
+        logger = logging.getLogger(__name__)
+        logger.info('Fenecon open connection and subscribe')
+        self.connect_retry_counter = 0
         # auth
         self.ws.send(self.json_auth_passwd)
         time.sleep(0.5)
