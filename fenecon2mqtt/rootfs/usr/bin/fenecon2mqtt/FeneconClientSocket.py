@@ -42,7 +42,7 @@ class FeneconClientSocket:
             os.path.exists('/.dockerenv') or
             os.path.isfile(path) and any('docker' in line for line in open(path))
         )
-    
+
     def connect_websocket(self):
         #ws://<<IP of Fenecon Home>>:8085/websocket
         ws_uri = str(f"ws://{config.fenecon['fems_ip']}:8085/websocket")
@@ -74,7 +74,8 @@ class FeneconClientSocket:
             # process subscribed data
             keys = list(msg_curent_data.keys())
             for key in keys:
-                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + str(f"fems-{key}").replace("/", "_"), str(msg_curent_data[key]))
+                hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{key}").replace("/", "-")
+                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]))
 
         elif msg_id == self.uuid_str_auth:
             # process authorization reqest

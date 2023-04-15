@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.4
+
+- switched to to correct state topic when publishing values
+
 ## 0.1.3
 
 - changed reconnect handling for Mqtt and Feencon
