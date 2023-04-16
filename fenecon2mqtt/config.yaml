@@ -38,9 +38,7 @@ options:
     fems_request_channels:
       - "_sum/State"
       - "_sum/EssSoc"
-      - "_sum/EssActivePower"
       - "_sum/State"
-      - "_sum/EssSoc"
       - "_sum/EssActivePower"
       - "_sum/EssActivePowerL1"
       - "_sum/EssActivePowerL2"
@@ -66,8 +64,6 @@ options:
       - "ctrlPrepareBatteryExtension0/CtrlIsChargingEss"
       - "ctrlPrepareBatteryExtension0/CtrlIsDischargingEss"
       - "ctrlPrepareBatteryExtension0/_PropertyIsRunning"
-      - "charger0/ActualPower"
-      - "charger1/ActualPower"
       - "ctrlGridOptimizedCharge0/DelayChargeState"
       - "ctrlGridOptimizedCharge0/SellToGridLimitState"
       - "ctrlGridOptimizedCharge0/DelayChargeMaximumChargeLimit"
