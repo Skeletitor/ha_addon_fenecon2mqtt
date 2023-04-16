@@ -1,4 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.1.8
+- fix bug in container config
 
 ## 0.1.7
 - housekeeping of HA discovery topic. Old retained messages are purged.

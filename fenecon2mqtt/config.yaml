@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.1.7"
+version: "0.1.8"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/hassio_addons/tree/main/fenecon2mqtt"
@@ -97,6 +97,7 @@ schema:
     sensor_overwrite:
       - "str?"
     sensor_uid_prefix: "str"
+    sensor_name_prefix: "str?"
   fenecon:
     fems_ip: "str"
     fems_password: "str"
