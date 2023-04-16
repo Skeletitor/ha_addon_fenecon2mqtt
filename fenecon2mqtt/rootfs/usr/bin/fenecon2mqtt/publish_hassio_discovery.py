@@ -138,10 +138,10 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             json_template_device['ops'] = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['text']
             json_template_device['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
             json_template_device['val_tpl'] = "{{value}}"
-            mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "/config", json.dumps(json_template_device))
+            mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "/config", json.dumps(json_template_device), 0, True)
         else:
             #print(json_template_entity)
-            mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity))
+            mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity), 0, True)
 
     logger.info('end publish hassio dicovery')
     return

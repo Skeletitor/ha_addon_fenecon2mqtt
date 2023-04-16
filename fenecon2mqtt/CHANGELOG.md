@@ -1,5 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.6
+- use retained mqtt messages, fixes entity dirconnect after Homeassistant restart
+
 ## 0.1.5
 
 - fixed some typos

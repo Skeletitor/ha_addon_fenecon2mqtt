@@ -75,7 +75,7 @@ class FeneconClientSocket:
             keys = list(msg_curent_data.keys())
             for key in keys:
                 hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{key}").replace("/", "-")
-                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]))
+                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]), 0, True)
 
         elif msg_id == self.uuid_str_auth:
             # process authorization reqest
