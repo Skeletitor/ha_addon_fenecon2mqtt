@@ -16,6 +16,7 @@ class HassioMqttClient:
             self.client.username_pw_set(config.hassio['mqtt_broker_user'], config.hassio['mqtt_broker_passwd'])
             self.client.on_connect = self.on_connect
             self.client.on_disconnect = self.on_disconnect
+            self.client.on_message = self.on_message
             
             logger.info('Connect to MQTT broker')
             try:
@@ -57,3 +58,25 @@ class HassioMqttClient:
             self.client.publish(*args, **kwargs)
         #else:
             # Wait to reconnect
+
+    def on_message(self, client, userdata, message):
+        logger = logging.getLogger(__name__)
+        logger.debug("clear HA discovery topic")
+        if message.retain and str(message.topic).startswith(config.hassio['mqtt_broker_hassio_discovery_queue']):
+            # Only process retained messages form dircovery topic
+            logger.debug(f'clear HA discovery topic: {message.topic}')
+            self.client.publish(message.topic, None, 0, True)
+
+    def clear_ha_discovery_topic(self):
+        logger = logging.getLogger(__name__)
+
+        if self.flag_connected == 0:
+            logger.warning("not connected")
+            return
+        
+        logger.info('Subscribe to discovery topic')
+        self.client.subscribe(f"{config.hassio['mqtt_broker_hassio_discovery_queue']}/#")
+        time.sleep(1)
+        logger.info('Unsubscribe to discovery topic')
+        self.client.unsubscribe(f"{config.hassio['mqtt_broker_hassio_discovery_queue']}/#")
+        return

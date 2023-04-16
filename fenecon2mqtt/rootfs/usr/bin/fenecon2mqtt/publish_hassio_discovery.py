@@ -94,8 +94,10 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
     logger = logging.getLogger(__name__)
     logger.info('start publish hassio dicovery')
 
-    i = 0
     for c in config.fenecon['fems_request_channels']:
+        #if c == '_meta/Version':
+        #    # only use this for updating Fenecon device in Homeassistant, we don't need this as sensor
+        #    continue
         component, channel = c.split('/')
         hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{c}").replace("/", "-")
         #logger.info(hassio_uid)
@@ -116,23 +118,14 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
         # check for overwrites
         ow_device_class, ow_state_class, ow_device_unit, ow_value_template = get_hassio_overwrite(c, config.hassio['sensor_overwrite'])
 
-        json_template_entity['name'] = str(f"FEMS: {c}")
+        json_template_entity['name'] = str(f"{config.hassio['sensor_name_prefix']} {c}")
         json_template_entity['uniq_id'] = hassio_uid
-        #json_template_entity['unit_of_meas'] = get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
-        #json_template_entity['unit_of_meas'] = ow_device_unit if ow_device_unit else get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
         json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
-        #json_template_entity['val_tpl'] = get_entity_value_template("{{value}}")
-        #json_template_entity['val_tpl'] = ow_value_template if ow_value_template else get_entity_value_template("{{value}}")
         json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template("{{value}}")
-        #json_template_entity['dev_cla'] =  get_entity_device_class(json_template_entity['unit_of_meas'])
-        #json_template_entity['dev_cla'] =  ow_device_class if ow_device_class else get_entity_device_class(json_template_entity['unit_of_meas'])
         json_template_entity['dev_cla'] =  ow_device_class or get_entity_device_class(json_template_entity['unit_of_meas'])
-        #json_template_entity['stat_cla'] =  get_entity_state_class(json_template_entity['dev_cla'])
-        #json_template_entity['stat_cla'] =  ow_state_class if ow_state_class else get_entity_state_class(json_template_entity['dev_cla'])
         json_template_entity['stat_cla'] =  ow_state_class or get_entity_state_class(json_template_entity['dev_cla'])
         json_template_entity['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
 
-        #print(config.hassio['mqtt_broker_hassio_discovery_queue'] + hassio_uid + "/config")
         if c == "_sum/State":
             json_template_device['dev']['sw'] = version
             json_template_device['ops'] = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['text']

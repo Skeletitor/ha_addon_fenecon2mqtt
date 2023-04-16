@@ -75,7 +75,8 @@ class FeneconClientSocket:
             keys = list(msg_curent_data.keys())
             for key in keys:
                 hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{key}").replace("/", "-")
-                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]), 0, True)
+                # Use not retained messages for sensor values
+                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]))
 
         elif msg_id == self.uuid_str_auth:
             # process authorization reqest
@@ -86,7 +87,10 @@ class FeneconClientSocket:
             return
         elif msg_id == self.uuid_str_getEdgeConfig_request:
             # process edge configuration data
-            logger.info("Edgeconfig -> trigger Hassio discovery")
+            logger.info("Edgeconfig received -> purge old Homeassistant discovery topic")
+            self.mqtt.clear_ha_discovery_topic()
+
+            logger.info("Edgeconfig received -> publish new Homeassistant discovery topic")
             publish_hassio_discovery(self.mqtt, msg_dict, self.version)
             if self.is_docker():
                 logger.info("Dump Fenecon configuration to local docker filesystem")

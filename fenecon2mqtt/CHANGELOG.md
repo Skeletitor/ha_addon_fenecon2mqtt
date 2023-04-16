@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.1.7
+- housekeeping of HA discovery topic. Old retained messages are purged.
+- added custom prefix for HA sensor names in container config   
+
 ## 0.1.6
 - use retained mqtt messages, fixes entity dirconnect after Homeassistant restart
 

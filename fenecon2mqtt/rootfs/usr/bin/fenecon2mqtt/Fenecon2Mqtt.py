@@ -45,11 +45,6 @@ def is_docker():
 
 def main():
     logger = setup_root_logger()
-    # logger.debug('debug message')
-    # logger.info('info message')
-    # logger.warning('warn message')
-    # logger.error('error message')
-    # logger.critical('critical message')
 
     # Connect to Hassio integrated MQTT
     mqtt = HassioMqttClient()
