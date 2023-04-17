@@ -47,4 +47,4 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
-[doc link]: ./DOCS.mddocs.md
+[doc link]: ./DOCS.md
