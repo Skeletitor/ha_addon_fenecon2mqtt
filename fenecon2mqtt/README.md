@@ -46,7 +46,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
 [license-shield]: https://img.shields.io/github/license/Skeletitor/hassio_addons
 [build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
-[codeql-state-badge]: https://github.com/Skeletitor/ihassio_addons/workflows/CodeQL/badge.svg
+[codeql-state-badge]: https://github.com/Skeletitor/hassio_addons/workflows/CodeQL/badge.svg
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
 [doc link]: ./DOCS.md
