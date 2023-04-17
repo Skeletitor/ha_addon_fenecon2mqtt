@@ -1,12 +1,13 @@
 #!/usr/bin/python3
-import os
-import sys
-import config
 import logging
+import os
 from logging import StreamHandler
 from logging.handlers import RotatingFileHandler
-from FeneconClientSocket import FeneconClientSocket
+
+import config
+from FeneconClient import FeneconClient
 from HassioMqttClient import HassioMqttClient
+
 
 def setup_root_logger():
     # Create the Logger
@@ -16,18 +17,19 @@ def setup_root_logger():
     logger.info(f"Runs in Docker {ENV_IS_DOCKER }")
     # Create a Formatter for formatting the log messages
     logger_formatter = logging.Formatter('%(asctime)s - %(name)s - %(threadName)s - %(levelname)s - %(message)s')
+    logger_level = logging.getLevelName(str(config.log_level).upper())
     if ENV_IS_DOCKER:
         # Create the Handler for logging data to a file
         # ensure logfile location exists
         if not os.path.exists('/share/fenecon'):
             os.makedirs('/share/fenecon')
         logger_handler = RotatingFileHandler('/share/fenecon/daemon.log', maxBytes=1024, backupCount=2)
-        logger_handler.setLevel(logging.INFO)
+        logger_handler.setLevel(logger_level)
         # Add the Formatter to the Handler
         logger_handler.setFormatter(logger_formatter)
     #Create the Handler for logging data to console.
     console_handler = StreamHandler()
-    console_handler.setLevel(logging.INFO)
+    console_handler.setLevel(logger_level)
     # Add the Formatter to the Handler
     console_handler.setFormatter(logger_formatter)
     # Add the Handler to the Logger
@@ -50,7 +52,7 @@ def main():
     mqtt = HassioMqttClient()
 
     # start connect to Fenecon websocket
-    s = FeneconClientSocket(mqtt)
+    s = FeneconClient(mqtt)
 
 if __name__ == "__main__":
     main()

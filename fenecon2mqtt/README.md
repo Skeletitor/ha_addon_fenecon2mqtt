@@ -16,7 +16,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 ## Requirements
 
 1. Homeassistant with a running Supervisor
-2. Fenecon Home EnergyStorage System (Maybee FEMS only works too)
+2. Fenecon Home EnergyStorage System (standalone FEMS may work too)
 3. MQTT Addon 'Mosquitto broker' [Mosquitto addon]
 
 ## Quick Setup
@@ -25,13 +25,17 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
    - Add local user in homeassistant for mqtt broker authentication
    - Provide user permisson to write to the mqtt topic (e.g share/mosquitto/acl.conf)
 2. Fenecon Home (FEMS) configuration
-   - Noting, ensure that the local IP and Port (1883) is reachalbe from Hassio
+   - Nothing, ensure that the local IP and Port (1883) is reachalbe from Hassio
 3. Addon configuration
    - Install
-   - Replace all "<< \* >>" marked data in addon configuration
+   - Replace all "null" values in addon configuration
    - Start addon
 
-##
+## Setup
+
+
+
+
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg

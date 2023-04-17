@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.1.8"
+version: "0.1.9"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/hassio_addons/tree/main/fenecon2mqtt"
@@ -19,10 +19,10 @@ options:
   #message: "Hello world..."
   #option1: "Text12"
   hassio:
-    mqtt_broker_host: "<<IP or DNS Name of MQTT broker>>"
+    mqtt_broker_host: null
     mqtt_broker_port: 1883
-    mqtt_broker_user: "<<mqtt Username>>"
-    mqtt_broker_passwd: "<<mqtt Password>>"
+    mqtt_broker_user: null
+    mqtt_broker_passwd: null
     mqtt_broker_keepalive: 60
     mqtt_broker_hassio_discovery_queue: "homeassistant/sensor/fenecon"
     mqtt_broker_hassio_queue: "fenecon"
@@ -33,8 +33,8 @@ options:
     sensor_name_prefix: "FEMS: "
   fenecon:
     #uri: "ws://<<IP of Fenecon Home>>:8085/websocket"
-    fems_ip: "<<IP or DNS Name of Fenecon Home/FEMS>>"
-    fems_password: "<<Password of guest user>>"
+    fems_ip: null
+    fems_password: null
     fems_request_channels:
       - "_sum/State"
       - "_sum/EssSoc"

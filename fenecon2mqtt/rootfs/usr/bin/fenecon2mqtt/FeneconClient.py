@@ -1,16 +1,18 @@
 #!/usr/bin/python3
-import websocket
-import config
-import rel
 import json
-import uuid
-import time
-from jsonrpcclient import Ok, parse_json, request_json
-from publish_hassio_discovery import publish_hassio_discovery
 import logging
 import os
+import time
+import uuid
 
-class FeneconClientSocket:
+import config
+import rel
+import websocket
+from jsonrpcclient import Ok, parse_json, request_json
+from publish_hassio_discovery import publish_hassio_discovery
+
+
+class FeneconClient:
     version = None
     # Static uuids for request
     uuid_str_auth = str(uuid.uuid4())

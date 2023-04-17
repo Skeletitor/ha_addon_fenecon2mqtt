@@ -1,4 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+
+## 0.1.9
+- added some documentation
+- changed device_class for 'unknown' devices
+- renamed classes
+- changed default values in add-on configuration
 ## 0.1.8
 - fix bug in container config
 

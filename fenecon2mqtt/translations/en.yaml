@@ -1,4 +1,7 @@
 configuration:
-  message:
-    name: Message
-    description: The message that will be printed to the log when starting this example add-on.
+  hassio:
+    name: Homeassistant
+    description: Configuration for Homeassistant.
+  fenecon:
+    name: Fenecon Home (FEMS)
+    description: Configuration for Fenecon's FEMS.

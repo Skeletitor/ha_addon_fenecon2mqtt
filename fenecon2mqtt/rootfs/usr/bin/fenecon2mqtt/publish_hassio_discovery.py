@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 import json
-import config
 import logging
 
-logger = logging.getLogger(__name__)
+import config
 
 json_template_device = {
         "name":"Fenecon Home",
@@ -59,7 +58,7 @@ def get_entity_state_class(device_class):
     state_class = None
     if device_class == "energy":
         state_class = "total_increasing"
-    else:
+    elif device_class in ['battery', 'power', 'voltage', 'current', 'temperature']:
         state_class = "measurement"
     return state_class
 
@@ -133,7 +132,6 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             json_template_device['val_tpl'] = "{{value}}"
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "/config", json.dumps(json_template_device), 0, True)
         else:
-            #print(json_template_entity)
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity), 0, True)
 
     logger.info('end publish hassio dicovery')

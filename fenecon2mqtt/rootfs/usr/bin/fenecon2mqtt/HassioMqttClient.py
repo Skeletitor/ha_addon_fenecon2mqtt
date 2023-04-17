@@ -1,8 +1,10 @@
 #!/usr/bin/python3
-import config
-import paho.mqtt.client as mqtt
 import logging
 import time
+
+import config
+import paho.mqtt.client as mqtt
+
 
 class HassioMqttClient:
     flag_connected = 0
