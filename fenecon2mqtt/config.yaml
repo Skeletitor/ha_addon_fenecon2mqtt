@@ -27,8 +27,8 @@ options:
     mqtt_broker_hassio_discovery_queue: "homeassistant/sensor/fenecon"
     mqtt_broker_hassio_queue: "fenecon"
     sensor_overwrite:
-      - "channel;device_class;state_class;device_unit;value_template;name"
-      - "battery0/Tower0PackVoltage;voltage;measurement;V;{{value}};new_HA_name"
+      - "channel;device_class;state_class;device_unit;value_template;name "
+      - "battery0/Tower0PackVoltage;voltage;measurement;V;{{value}};This is an exampe new_HA_name "
     sensor_uid_prefix: "fems-"
     sensor_name_prefix: "FEMS: "
   fenecon:
