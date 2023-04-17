@@ -7,6 +7,8 @@
 This repository contains the following add-ons
 
 ### [Fenecon2Mqtt](./fenecon2mqtt)
+![Build State][build-state-shield]
+![CodeQL][codeql-state-badge]
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
@@ -40,3 +42,5 @@ Notes to developers after forking or using the github template feature:
 [armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
+[build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
+[codeql-state-badge]: https://github.com/Skeletitor/hassio_addons/workflows/CodeQL/badge.svg
