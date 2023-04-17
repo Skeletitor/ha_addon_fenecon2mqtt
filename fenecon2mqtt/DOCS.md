@@ -64,4 +64,4 @@ sensor_overwrite:
 - Fenecon Version state update on the fly. This works only when add-on restarts atm.
 
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
-[Sensor overwrite]: (#ha-sensor_overwrite)
+[Sensor overwrite]: #ha-sensor_overwrite
