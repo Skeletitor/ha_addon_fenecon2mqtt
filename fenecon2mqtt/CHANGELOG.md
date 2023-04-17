@@ -1,4 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.1
+- updated documentation
 ## 0.2.0
 - added option to use custom names for sensors
 - fixed state_class for unknown sensors

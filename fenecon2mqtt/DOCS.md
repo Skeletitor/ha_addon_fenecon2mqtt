@@ -10,7 +10,7 @@
 
 ## Add-On documentation (Container configuration)
 ### Config options for Hassios MQTT broker
-You have to change the **_highlighted_** ones
+You have to change the **_null_** ones
 | Config   | Type | (default)Values      | Description      |
 |---    |---    |---    |---    |
 | mqtt_broker_host | string (mandatory) | **_null_** | IP of MQTT broker |
@@ -70,7 +70,7 @@ e.g.
 ```
 This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available channels are included.
 **!! Take care what your doing here !!**
- 
+
 
 ## TODO
 

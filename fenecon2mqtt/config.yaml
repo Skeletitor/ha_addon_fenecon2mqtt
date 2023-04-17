@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.2.0"
+version: "0.2.1"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as Hassio device and entities
 url: "https://github.com/Skeletitor/hassio_addons/tree/main/fenecon2mqtt"
