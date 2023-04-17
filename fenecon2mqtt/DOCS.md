@@ -20,7 +20,7 @@ You have to change the **_highlighted_** ones
 | mqtt_broker_keepalive | number (mandatory) | 60 | leave it at 60 seconds |
 | mqtt_broker_hassio_discovery_queue| string (mandatory) | homeassistant/sensor/fenecon | HA's Mqtt discovery topic. _Change it if you know what you're doing_ |
 | mqtt_broker_hassio_queue | string (mandatory) | fenecon | HA's Mqtt topic for sensor values. _Change it if you know what you're doing_ |
-| sensor_overwrite | array of strings (values optional) | -"channel;device_class;state_class;device_unit;value_template;name" -"battery0/Tower0PackVoltage;voltage;measurement;V;{{value}};new_HA_name" | options to overwrite HA sensor properties. Use it if you know what you're doing |
+| sensor_overwrite | array of strings (values optional) | | options to overwrite HA sensor properties. _Use it if you know what you're doing._ [Sensor overwrite] |
 | sensor_uid_prefix | string (mandatory) | fems- | prefix used for uid generation in HA. Changing the dafault will create new sensors in HA. _Change it if you know what you're doing_ |
 | sensor_name_prefix | string (optional) | "FEMS: " | prefix used for name/friendly name generation in HA |
   
@@ -37,7 +37,7 @@ You have to change the **_highlighted_** ones
 
 ## Special configuration options
 
-### HA - `sensor_overwrite`
+### HA-`sensor_overwrite`
 
 Using this config option gives you the ability to overwrite Homeassistant Sensor definitions. You can provide multiple strings as array. Any string must contain the following systax: 
 ```
@@ -64,3 +64,4 @@ sensor_overwrite:
 - Fenecon Version state update on the fly. This works only when add-on restarts atm.
 
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
+[Sensor overwrite]: (#HA-sensor_overwrite)
