@@ -31,7 +31,8 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
    - Replace all "null" values in addon configuration
    - Start addon
 
-## Setup
+## Documentation
+[Doc link]
 
 
 
@@ -46,4 +47,4 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
-[github-issue]: https://github.com/home-assistant/addons/issues/2618
+[doc link]: ./DOCS.mddocs.md

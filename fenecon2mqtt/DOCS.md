@@ -29,7 +29,7 @@ You have to change the **_highlighted_** ones
 |---    |---    |---    |---    |
 | fems_ip | string (mandatory) | **_null_** | IP or DNS Name of Fenecon Home/FEMS |
 | fems_password | string (mandatory) | **_null_** | Password of guest user |
-| fems_request_channels | array of strings (mandatory) | a lot | List of all FEMS channels to subscribe. _Change it if you know what you're doing_ |
+| fems_request_channels | array of strings (mandatory) | a lot | List of  FEMS channels to subscribe. _Change it if you know what you're doing_ [FEMS request channels] |
 ### General options for Add-on 
 | Config   | Type | (default)Values      | Description      |
 |---    |---    |---    |---    |
@@ -45,7 +45,7 @@ Using this config option gives you the ability to overwrite Homeassistant Sensor
 ```
 | key | descrption |
 |---  |--- |
-|`**`channel` | (mandatory) is used as key to select the FEMS channel. |
+|`channel` | (mandatory) is used as key to select the FEMS channel. |
 |`device_class` | (optional) is used to define HA's sensor device_class |
 |`state_class` | (optional) is used to define HA's sensor state_class |
 |`device_unit` | (optional) is used to define HA's sensor unit (V,A,W,...) |
@@ -58,6 +58,20 @@ sensor_overwrite:
   - "fenecon/fems-_meta-Version;;;;;FEMS Version "
 ```
 
+### Fenecon-`fems_request_channels`
+
+Is uses to define which FEMS channels should be transfered to a HA sensor.
+You can provide multiple strings as array. Any string must contain the following systax: 
+```
+- "component/channel"
+e.g.
+- _meta/Version
+- _sum/EssSoc
+```
+This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available channels are included.
+**!! Take care what your doing here !!**
+ 
+
 ## TODO
 
 - Apparmor configuration
@@ -65,3 +79,4 @@ sensor_overwrite:
 
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [Sensor overwrite]: #ha-sensor_overwrite
+[FEMS request channels]: #fenecon-fems_request_channels
