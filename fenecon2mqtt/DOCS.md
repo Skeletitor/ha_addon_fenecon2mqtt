@@ -8,7 +8,7 @@
 2. Fenecon Home EnergyStorage System (Maybee FEMS only works too)logger_level
 3. MQTT Addon 'Mosquitto broker' [mosquitto addon]
 
-## Add-On documentation (Container configration)
+## Add-On documentation (Container configuration)
 ### Config options for Hassios MQTT broker
 You have to change the **_highlighted_** ones
 | Config   | Type | (default)Values      | Description      |
@@ -34,6 +34,29 @@ You have to change the **_highlighted_** ones
 | Config   | Type | (default)Values      | Description      |
 |---    |---    |---    |---    |
 | log_level | list (mandatory) | CRITICAL\|ERROR\|WARNING\|INFO\|DEBUG\|NOTSET  | Add-on Log Level |
+
+## Special configuration options
+
+### HA - `sensor_overwrite`
+
+Using this config option gives you the ability to overwrite Homeassistant Sensor definitions. You can provide multiple strings as array. Any string must contain the following systax: 
+```
+"channel;device_class;state_class;device_unit;value_template;name "
+```
+| key | descrption |
+|---  |--- |
+|`**`channel` | (mandatory) is used as key to select the FEMS channel. |
+|`device_class` | (optional) is used to define HA's sensor device_class |
+|`state_class` | (optional) is used to define HA's sensor state_class |
+|`device_unit` | (optional) is used to define HA's sensor unit (V,A,W,...) |
+|`value_template` | (optional) is used to define HA's sensor value_template |
+|`name` | (optional) is used to define HA's sensor friendly name |
+
+E.g. if you want to use an other friendly name in HA for a sensor:
+```.csv
+sensor_overwrite:
+  - "fenecon/fems-_meta-Version;;;;;FEMS Version "
+```
 
 ## TODO
 
