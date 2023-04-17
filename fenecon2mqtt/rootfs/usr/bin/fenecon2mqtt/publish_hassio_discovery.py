@@ -55,7 +55,7 @@ def get_entity_device_class(unit):
 
 def get_entity_state_class(device_class):
     logger = logging.getLogger(__name__)
-    state_class = None
+    state_class = "None"
     if device_class == "energy":
         state_class = "total_increasing"
     elif device_class in ['battery', 'power', 'voltage', 'current', 'temperature']:
@@ -77,17 +77,18 @@ def get_hassio_overwrite(channel, config):
     overwrite_state_class = None
     overwrite_device_unit = None
     overwrite_value_template = None
+    overwrite_name = None
     #"channel;device_class;state_class;device_unit;value_template"
     for overwrite in config:
         try:
-            overwrite_channel, overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template = overwrite.split(';')
+            overwrite_channel, overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template, overwrite_name = overwrite.split(';')
         except Exception:
             logger.warning(f"ERROR: Hassio overwrite can not be parsed ({overwrite})")
             continue
         if channel == overwrite_channel:
             logger.info('Hassio sensor overwrite found')
-            return overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template
-    return None, None, None, None
+            return overwrite_device_class, overwrite_state_class, overwrite_device_unit, overwrite_value_template, overwrite_name
+    return None, None, None, None, None
 
 def publish_hassio_discovery(mqtt, fenecon_config, version):
     logger = logging.getLogger(__name__)
@@ -115,9 +116,9 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             continue
 
         # check for overwrites
-        ow_device_class, ow_state_class, ow_device_unit, ow_value_template = get_hassio_overwrite(c, config.hassio['sensor_overwrite'])
+        ow_device_class, ow_state_class, ow_device_unit, ow_value_template, ow_name = get_hassio_overwrite(c, config.hassio['sensor_overwrite'])
 
-        json_template_entity['name'] = str(f"{config.hassio['sensor_name_prefix']} {c}")
+        json_template_entity['name'] = ow_name or str(f"{config.hassio['sensor_name_prefix']} {c}")
         json_template_entity['uniq_id'] = hassio_uid
         json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
         json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template("{{value}}")

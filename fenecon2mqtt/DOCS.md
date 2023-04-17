@@ -20,7 +20,7 @@ You have to change the **_highlighted_** ones
 | mqtt_broker_keepalive | number (mandatory) | 60 | leave it at 60 seconds |
 | mqtt_broker_hassio_discovery_queue| string (mandatory) | homeassistant/sensor/fenecon | HA's Mqtt discovery topic. _Change it if you know what you're doing_ |
 | mqtt_broker_hassio_queue | string (mandatory) | fenecon | HA's Mqtt topic for sensor values. _Change it if you know what you're doing_ |
-| sensor_overwrite | array of strings (values optional) | -"channel;device_class;state_class;device_unit;value_template" -"battery0/Tower0PackVoltage;voltage;measurement;V;{{value}}" | options to overwrite HA sensor properties. Use it if you know what you're doing |
+| sensor_overwrite | array of strings (values optional) | -"channel;device_class;state_class;device_unit;value_template;name" -"battery0/Tower0PackVoltage;voltage;measurement;V;{{value}};new_HA_name" | options to overwrite HA sensor properties. Use it if you know what you're doing |
 | sensor_uid_prefix | string (mandatory) | fems- | prefix used for uid generation in HA. Changing the dafault will create new sensors in HA. _Change it if you know what you're doing_ |
 | sensor_name_prefix | string (optional) | "FEMS: " | prefix used for name/friendly name generation in HA |
   
