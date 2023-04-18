@@ -44,9 +44,9 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
-[license-shield]: https://img.shields.io/github/license/Skeletitor/hassio_addons
-[build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
-[codeql-state-badge]: https://github.com/Skeletitor/hassio_addons/workflows/CodeQL/badge.svg
+[license-shield]: https://img.shields.io/github/license/Skeletitor/ha_addon_fenecon2mqtt
+[build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/ha_addon_fenecon2mqtt/builder.yaml?branch=main
+[codeql-state-badge]: https://github.com/Skeletitor/ha_addon_fenecon2mqtt/workflows/CodeQL/badge.svg
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
 [doc link]: ./DOCS.md
