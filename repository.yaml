@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
-name: Skeletitors Home Assistant add-on repository
-url: "https://github.com/Skeletitor/hassio_addons"
+name: Home Assistant Add-on Fenecon2Mqtt
+url: "https://github.com/Skeletitor/ha_addon_fenecon2mqtt"
 maintainer: Tobias Roehmer <Tobias.Roehmer@outlook.de>
