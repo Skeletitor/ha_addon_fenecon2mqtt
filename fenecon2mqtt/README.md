@@ -19,7 +19,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 ## Requirements
 
 1. Homeassistant with a running Supervisor
-2. Fenecon Home EnergyStorage System (standalone FEMS may work too)
+2. Fenecon Home EnergyStorage System (tested with [Fenecon Home 10]. I guess [OpenEMS] based Solutions may work too)
 3. MQTT Addon 'Mosquitto broker' [Mosquitto addon]
 
 ## Quick Setup
@@ -49,3 +49,5 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
 [doc link]: ./DOCS.md
+[fenecon home 10]: https://fenecon.de/fenecon-home-10/
+[openems]: https://openems.io/
