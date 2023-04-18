@@ -25,7 +25,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 ## Quick Setup
 
 1. MQTT configuration
-   - Add local user in homeassistant for mqtt broker authentication
+   - Add local user in homeassistant for mqtt broker authentication ([doc link user])
    - Provide user permisson to write to the mqtt topic (e.g share/mosquitto/acl.conf)
 2. Fenecon Home (FEMS) configuration
    - Nothing, ensure that the local IP and Port (1883) is reachalbe from Hassio
@@ -49,5 +49,6 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
 [doc link]: ./DOCS.md
+[doc link user]: ./DOCS.md#users_and_passwords
 [fenecon home 10]: https://fenecon.de/fenecon-home-10/
 [openems]: https://openems.io/
