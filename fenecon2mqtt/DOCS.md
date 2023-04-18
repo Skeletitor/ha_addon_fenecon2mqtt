@@ -122,8 +122,8 @@ You'll need Fenecons (OpenEMS) guest user password: [fems password]
 - Apparmor configuration
 - Fenecon Version state update on the fly. This works only when add-on restarts atm.
 
-[mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
-[mosquitto addon acl]: (https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md#access-control-lists-acls)
+[mosquitto addon]: https://github.com/home-assistant/addons/tree/master/mosquitto
+[mosquitto addon acl]: https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md#access-control-lists-acls
 [sensor overwrite]: #ha-sensor_overwrite
 [fems request channels]: #fenecon-fems_request_channels
-[fems password]: (https://letmegooglethat.com/?q=fenecon+guest+user+password)
+[fems password]: https://letmegooglethat.com/?q=fenecon+guest+user+password
