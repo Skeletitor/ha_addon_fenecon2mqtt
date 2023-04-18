@@ -1,4 +1,4 @@
-# Home Assistant add-on repository
+# Home Assistant Add-on repository for Fenecon2Mqtt
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FSkeletitor%2Fha_addon_fenecon2mqtt)
 
@@ -16,7 +16,7 @@ This repository contains the following add-ons
 ![Supports armv7 Architecture][armv7-shield]
 ![Supports i386 Architecture][i386-shield]
 
-_Addons are based on Hassios example add-on and Alpine Python images. Thank you very much (Hassio Devs) for you excelent work!_
+_Addon is based on Hassios example add-on and Alpine Python images. Thank you very much (Hassio Devs) for you excelent work!_
 
 <!--
 
