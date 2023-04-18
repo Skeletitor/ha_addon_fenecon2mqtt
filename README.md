@@ -1,6 +1,6 @@
 # Home Assistant add-on repository
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FSkeletitor%2Fhassio_addons)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FSkeletitor%2Fha_addon_fenecon2mqtt)
 
 ## Add-ons
 
@@ -42,5 +42,5 @@ Notes to developers after forking or using the github template feature:
 [armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
-[build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/hassio_addons/builder.yaml?branch=main
-[codeql-state-badge]: https://github.com/Skeletitor/hassio_addons/workflows/CodeQL/badge.svg
+[build-state-shield]: https://img.shields.io/github/actions/workflow/status/Skeletitor/ha_addon_fenecon2mqtt/builder.yaml?branch=main
+[codeql-state-badge]: https://github.com/Skeletitor/ha_addon_fenecon2mqtt/workflows/CodeQL/badge.svg
