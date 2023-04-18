@@ -12,6 +12,8 @@
 
 This add-on connects to Fenecon Home (FEMS) websocket and subscribes to the configured channels. This data is pushed to Hassio integrated mqtt broker. All sensors(entities) are added autmatically.
 
+![fenecon2mqtt_img](https://github.com/Skeletitor/ha_addon_fenecon2mqtt/blob/main/fenecon2mqtt/logo.png?raw=true)
+
 Thanks goes to [@benniju] who gives the idea of using websocket.
 
 ## Requirements
@@ -33,11 +35,8 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
    - Start addon
 
 ## Documentation
+
 [Doc link]
-
-
-
-
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
