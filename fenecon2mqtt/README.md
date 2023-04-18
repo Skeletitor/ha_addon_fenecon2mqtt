@@ -49,6 +49,6 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [mosquitto addon]: (https://github.com/home-assistant/addons/tree/master/mosquitto)
 [@benniju]: https://github.com/benniju
 [doc link]: ./DOCS.md
-[doc link user]: ./DOCS.md#users_and_passwords
+[doc link user]: (https://github.com/Skeletitor/ha_addon_fenecon2mqtt/blob/main/fenecon2mqtt/DOCS.md#users-and-passwords)
 [fenecon home 10]: https://fenecon.de/fenecon-home-10/
 [openems]: https://openems.io/

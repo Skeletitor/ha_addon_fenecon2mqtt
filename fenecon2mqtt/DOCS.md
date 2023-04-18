@@ -126,4 +126,4 @@ You'll need Fenecons (OpenEMS) guest user password: [fems password]
 [mosquitto addon acl]: (https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md#access-control-lists-acls)
 [sensor overwrite]: #ha-sensor_overwrite
 [fems request channels]: #fenecon-fems_request_channels
-[fems password]: (https://letmegooglethat.com/?q=fenecon+guest+user+password){:target="_blank"}
+[fems password]: (https://letmegooglethat.com/?q=fenecon+guest+user+password)
