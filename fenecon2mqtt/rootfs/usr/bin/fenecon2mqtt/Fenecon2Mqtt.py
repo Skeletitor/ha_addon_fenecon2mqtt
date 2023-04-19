@@ -23,7 +23,7 @@ def setup_root_logger():
         # ensure logfile location exists
         if not os.path.exists('/share/fenecon'):
             os.makedirs('/share/fenecon')
-        logger_handler = RotatingFileHandler('/share/fenecon/daemon.log', maxBytes=1024, backupCount=2)
+        logger_handler = RotatingFileHandler('/share/fenecon/daemon.log', maxBytes=1024*1024, backupCount=2)
         logger_handler.setLevel(logger_level)
         # Add the Formatter to the Handler
         logger_handler.setFormatter(logger_formatter)

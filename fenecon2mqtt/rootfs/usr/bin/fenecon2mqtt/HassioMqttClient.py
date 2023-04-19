@@ -13,19 +13,20 @@ class HassioMqttClient:
         logger = logging.getLogger(__name__)
         first_connect_retry_counter = 0
         first_connect_retry_max = 10
+        
         while self.flag_connected == 0 and first_connect_retry_counter < first_connect_retry_max:
-            self.client = mqtt.Client("Fenecon2Hassio", clean_session=False)
+            logger.info('Connect to MQTT broker')
+            self.client = mqtt.Client(f"Fenecon2Hassio_mqttClient_{first_connect_retry_counter}", clean_session=True)
             self.client.username_pw_set(config.hassio['mqtt_broker_user'], config.hassio['mqtt_broker_passwd'])
             self.client.on_connect = self.on_connect
             self.client.on_disconnect = self.on_disconnect
             self.client.on_message = self.on_message
-            
-            logger.info('Connect to MQTT broker')
             try:
                 self.client.connect(config.hassio['mqtt_broker_host'], config.hassio['mqtt_broker_port'], config.hassio['mqtt_broker_keepalive'])
                 self.client.loop_start()
                 time.sleep(1)
             except Exception:
+                self.client.loop_stop()
                 first_connect_retry_counter += 1
                 logger.warning(f'Trying to connect ({first_connect_retry_counter}/{first_connect_retry_max}). Mqtt broker not reachable. Check availability and config.')
                 logger.warning(f'  Broker IP    : {config.hassio["mqtt_broker_host"]}')
@@ -34,9 +35,11 @@ class HassioMqttClient:
                 logger.warning('  Broker Passwd: look in configuration')
                 logger.warning('wait 30 seconds')
                 time.sleep(30)
+
         if first_connect_retry_max == first_connect_retry_counter:
             logger.error('Connect to MQTT broker not possible. Exit!')
             quit()
+        
 
     def on_connect(self, client, userdata, flags, rc):
         logger = logging.getLogger(str(f"on_connect-{__name__}"))
@@ -70,6 +73,7 @@ class HassioMqttClient:
             self.client.publish(message.topic, None, 0, True)
 
     def clear_ha_discovery_topic(self):
+        # Just to clean up old retained messages in discovery topic
         logger = logging.getLogger(__name__)
 
         if self.flag_connected == 0:

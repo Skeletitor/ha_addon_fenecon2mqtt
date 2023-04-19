@@ -1,4 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.3
+- switched mqtt client to clean sessions, we don't need persistant connections in mqtt broker
+- changed mqtt initial connect behavior. 
+- changed file size of logfiles
 ## 0.2.2
 - testing build pipeline
 ## 0.2.1
