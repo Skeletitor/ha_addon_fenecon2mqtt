@@ -1,4 +1,7 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.4
+- changed reconnect handling for websocket connection
+- Fems version should be updated after reconnecttion
 ## 0.2.3
 - switched mqtt client to clean sessions, we don't need persistant connections in mqtt broker
 - changed mqtt initial connect behavior. 
