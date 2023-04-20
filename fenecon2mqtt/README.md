@@ -19,7 +19,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 ## Requirements
 
 1. Homeassistant with a running Supervisor
-2. Fenecon Home EnergyStorage System (tested with [Fenecon Home 10]. I guess [OpenEMS] based solutions work too)
+2. Fenecon Home EnergyStorage System. Tested with [Fenecon Home 10] and [Heckert Symphon-E] (thanks to 'skeal'). I guess [OpenEMS] based solutions work too.
 3. MQTT Addon 'Mosquitto broker' [Mosquitto addon]
 
 ## Quick Setup
@@ -52,3 +52,4 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 [doc link user]: https://github.com/Skeletitor/ha_addon_fenecon2mqtt/blob/main/fenecon2mqtt/DOCS.md#users-and-passwords
 [fenecon home 10]: https://fenecon.de/fenecon-home-10/
 [openems]: https://openems.io/
+[Heckert Symphon-E]: https://www.heckertsolar.com/symphon-e/
