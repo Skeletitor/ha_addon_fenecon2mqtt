@@ -117,10 +117,6 @@ topic readwrite homeassistant/sensor/fenecon/#
 
 You'll need Fenecons (OpenEMS) guest user password: [fems password]
 
-## TODO
-
-- Apparmor configuration
-- Fenecon Version state update on the fly. This works only when add-on restarts atm.
 
 [mosquitto addon]: https://github.com/home-assistant/addons/tree/master/mosquitto
 [mosquitto addon acl]: https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md#access-control-lists-acls
