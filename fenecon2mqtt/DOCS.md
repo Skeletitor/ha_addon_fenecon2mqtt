@@ -15,15 +15,15 @@
 You have to change the **_null_** ones
 | Config | Type | (default)Values | Description |
 |--- |--- |--- |--- |
-| mqtt\*broker\*host | string (mandatory) | \*\*\_null**\* | IP of MQTT broker |
+| mqtt\*broker\*host | string (mandatory) | **_null_** | IP of MQTT broker |
 | mqtt_broker_port | number (mandatory) | 1883 | Port of MQTT broker |
-| mqtt_broker_user | string (mandatory) | **\_null**\* | insert your own mqtt user |
-| mqtt_broker_passwd | string (mandatory) | **_null_\*\* | insert your own mqtt user password |
+| mqtt_broker_user | string (mandatory) | **_null_** | insert your own mqtt user |
+| mqtt_broker_passwd | string (mandatory) | **_null_** | insert your own mqtt user password |
 | mqtt*broker_keepalive | number (mandatory) | 60 | leave it at 60 seconds |
-| mqtt_broker_hassio_discovery_queue| string (mandatory) | homeassistant/sensor/fenecon | HA's Mqtt discovery topic. \_Change it if you know what you're doing* |
-| mqtt*broker_hassio_queue | string (mandatory) | fenecon | HA's Mqtt topic for sensor values. \_Change it if you know what you're doing* |
-| sensor*overwrite | array of strings (values optional) | | options to overwrite HA sensor properties. \_Use it if you know what you're doing.* [Sensor overwrite] |
-| sensor*uid_prefix | string (mandatory) | fems- | prefix used for uid generation in HA. Changing the dafault will create new sensors in HA. \_Change it if you know what you're doing* |
+| mqtt_broker_hassio_discovery_queue| string (mandatory) | homeassistant/sensor/fenecon | HA's Mqtt discovery topic. _Change it if you know what you're doing_ |
+| mqtt*broker_hassio_queue | string (mandatory) | fenecon | HA's Mqtt topic for sensor values. _Change it if you know what you're doing_ |
+| sensor*overwrite | array of strings (values optional) | | options to overwrite HA sensor properties. _Use it if you know what you're doing._ [Sensor overwrite] |
+| sensor*uid_prefix | string (mandatory) | fems- | prefix used for uid generation in HA. Changing the dafault will create new sensors in HA. _Change it if you know what you're doing_ |
 | sensor_name_prefix | string (optional) | "FEMS: " | prefix used for name/friendly name generation in HA |
 
 ### Config options for Fenecon (FEMS)
@@ -97,19 +97,19 @@ Add a new local user there (Take care, a user not a person!). This user don't ne
 
 **_Provide the mqtt broker permissions:_**
 
-The new created user needs now permissions to write Data to two mqtt topics. The first one (see below) is used to transmit data. The second one is to transmit device and entity data to use HA's autodiscovery feature.
+The new created user needs now permissions to write Data to two mqtt topics. The first permission (see below) is used to transmit data. The second one is to transmit device and entity data to use HA's autodiscovery feature.
 
 ssh to /share/mosquitto.
 
 Add the following code in your acl file to provide the user permissions to the default mqqt topic's. [mosquitto addon acl]
 
-**Take care, you'll have to change these entries if you change the topics in container config**
+**Take care, you'll have to change these entries if you change the topics in container config** Replace the "<< USERNAME >>" with your newly created username.
 
 ```
 user <<USERNAME>>
 topic readwrite fenecon/#
 
-user <<SERNAME>>
+user <<USERNAME>>
 topic readwrite homeassistant/sensor/fenecon/#
 ```
 
