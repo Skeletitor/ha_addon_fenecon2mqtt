@@ -1,4 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.6
+- Stopt the addon if there is a problem with the connection to FEMS. Watchg can restart the whole addon to get a clean state.
 ## 0.2.5
 - Test version. Let Watchdog do the reconnect if a failure occurs
 ## 0.2.4

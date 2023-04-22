@@ -107,6 +107,8 @@ class FeneconClient:
     def on_error(self, ws, error):
         logger = logging.getLogger(__name__)
         logger.error(f'Fenecon connection error: {error}')
+        logger.error('Shut down. Let Watchdog restart this add-on')
+        quit()
 
     def on_close(self, ws, close_status_code, close_msg):
         logger = logging.getLogger(__name__)

@@ -33,6 +33,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
    - Install
    - Replace all "null" values in addon configuration
    - Start addon
+   - Enable Watchdog
 
 ## Documentation
 
