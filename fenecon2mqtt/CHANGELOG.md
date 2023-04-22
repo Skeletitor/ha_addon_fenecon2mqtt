@@ -1,4 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.5
+- Test version. Let Watchdog do the reconnect if a failure occurs
 ## 0.2.4
 - changed reconnect handling for websocket connection
 - Fems version should be updated after reconnecttion

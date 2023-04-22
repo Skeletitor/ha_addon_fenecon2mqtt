@@ -57,7 +57,7 @@ class FeneconClient:
                                          on_close=self.on_close)
         ws.run_forever(dispatcher=rel)
         rel.signal(2, rel.abort)  # Keyboard Interrupt
-        rel.dispatch()  
+        rel.dispatch()
 
     def on_message(self, ws, message):
         logger = logging.getLogger(__name__)
@@ -112,16 +112,19 @@ class FeneconClient:
         logger = logging.getLogger(__name__)
         logger.warning(f'Fenecon sonnection closed. Code:    {close_status_code}')
         logger.warning(f'                           Message: {close_msg}')
-        logger.warning('try again in 30 seconds')
-        time.sleep(30)
-        self.connect_retry_counter += 1
-        if self.connect_retry_max >= self.connect_retry_counter:
-            logger.warning(f'Trying to connect ({self.connect_retry_counter}/{self.connect_retry_max}). Fenecon not reachable. Check availability and config.')
-            logger.warning(f'  Fenecon IP    : {config.fenecon["fems_ip"]}')
-            self.connect_websocket()
-        else:
-            logger.error('Fenecon not reachable. Exit!')
-            quit()
+        #logger.warning('try again in 30 seconds')
+        rel.abort()
+        logger.warning('Shut down. Let Watchdog restart this add-on')
+        quit()
+        #self.connect_retry_counter += 1
+        #if self.connect_retry_max >= self.connect_retry_counter:
+        #    time.sleep(30)
+        #    logger.warning(f'Trying to connect ({self.connect_retry_counter}/{self.connect_retry_max}). Fenecon not reachable. Check availability and config.')
+        #    logger.warning(f'  Fenecon IP    : {config.fenecon["fems_ip"]}')
+        #    self.connect_websocket()
+        #else:
+        #    logger.error('Fenecon not reachable. Exit!')
+        #    quit()
 
     def on_open(self, ws):
         logger = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.2.4"
+version: "0.2.5"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as a Homeassistant device and HA entities. Fenecons channels are configurable.
 url: "https://github.com/Skeletitor/ha_addon_fenecon2mqtt"
@@ -26,7 +26,6 @@ options:
     mqtt_broker_hassio_queue: "fenecon"
     sensor_overwrite:
       - "channel;device_class;state_class;device_unit;value_template;name "
-      - "batteryX/Tower0PackVoltage;voltage;measurement;V;{{value}};This is an exampe new_HA_name "
     sensor_uid_prefix: "fems-"
     sensor_name_prefix: "FEMS: "
   fenecon:
