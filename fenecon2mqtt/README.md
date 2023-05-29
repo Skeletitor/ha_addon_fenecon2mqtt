@@ -26,7 +26,7 @@ Thanks goes to [@benniju] who gives the idea of using websocket.
 
 1. MQTT configuration
    - Add local user in homeassistant for mqtt broker authentication [doc link user]
-   - Provide user permisson to write to the mqtt topic (e.g homeassistant/sensor/fenecon)
+   - Provide user permisson to write to the mqtt topic (e.g homeassistant/sensor/fenecon/# and fenecon/#)
 2. Fenecon Home (FEMS) configuration
    - Nothing, ensure that the local IP and Port (1883) is reachalbe from Hassio
 3. Addon configuration
