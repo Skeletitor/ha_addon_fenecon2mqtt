@@ -37,9 +37,9 @@ class HassioMqttClient:
                 time.sleep(30)
 
         if first_connect_retry_max == first_connect_retry_counter:
-            logger.error('Connect to MQTT broker not possible. Exit!')
+            logger.error('Connect to MQTT broker not possible. Wait 5 seconds. Exit!')
+            time.sleep(5)
             quit()
-        
 
     def on_connect(self, client, userdata, flags, rc):
         logger = logging.getLogger(str(f"on_connect-{__name__}"))
@@ -48,7 +48,6 @@ class HassioMqttClient:
             self.flag_connected = 1
         else:
             logger.warning(f"Bad connection Returned code={rc}")
-
 
     def on_disconnect(self, client, userdata, rc):
         logger = logging.getLogger(str(f"on_disconnect-{__name__}"))

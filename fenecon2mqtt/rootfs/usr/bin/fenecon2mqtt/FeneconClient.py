@@ -107,7 +107,8 @@ class FeneconClient:
     def on_error(self, ws, error):
         logger = logging.getLogger(__name__)
         logger.error(f'Fenecon connection error: {error}')
-        logger.error('Shut down. Let Watchdog restart this add-on')
+        logger.error('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
+        time.sleep(5)
         quit()
 
     def on_close(self, ws, close_status_code, close_msg):
@@ -116,7 +117,8 @@ class FeneconClient:
         logger.warning(f'                           Message: {close_msg}')
         #logger.warning('try again in 30 seconds')
         rel.abort()
-        logger.warning('Shut down. Let Watchdog restart this add-on')
+        logger.warning('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
+        time.sleep(5)
         quit()
         #self.connect_retry_counter += 1
         #if self.connect_retry_max >= self.connect_retry_counter:
