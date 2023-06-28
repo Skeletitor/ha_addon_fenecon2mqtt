@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.2.7"
+version: "0.2.8"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as a Homeassistant device and HA entities. Fenecons channels are configurable.
 url: "https://github.com/Skeletitor/ha_addon_fenecon2mqtt"

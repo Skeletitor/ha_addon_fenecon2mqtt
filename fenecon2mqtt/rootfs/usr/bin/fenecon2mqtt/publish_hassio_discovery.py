@@ -121,6 +121,8 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
         json_template_entity['name'] = ow_name or str(f"{config.hassio['sensor_name_prefix']} {c}")
         json_template_entity['uniq_id'] = hassio_uid
         json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
+        # correct sum unit from fenecon
+        json_template_entity['unit_of_meas'] = json_template_entity['unit_of_meas'].replace('_Σ','')
         json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template("{{value}}")
         json_template_entity['dev_cla'] =  ow_device_class or get_entity_device_class(json_template_entity['unit_of_meas'])
         json_template_entity['stat_cla'] =  ow_state_class or get_entity_state_class(json_template_entity['dev_cla'])

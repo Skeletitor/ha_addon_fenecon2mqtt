@@ -1,4 +1,6 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.8
+- ignore Fenecons new unit Wh_Σ for energy values which was introduced in June 23
 ## 0.2.7
 - pushed new dependencies
 - added some sleeps while reconnecting
