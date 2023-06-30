@@ -44,15 +44,18 @@ class HassioMqttClient:
     def on_connect(self, client, userdata, flags, rc):
         logger = logging.getLogger(str(f"on_connect-{__name__}"))
         if rc==0:
-            logger.info(f"connected OK Returned code={rc}")
+            logger.info(f"connected OK Returned code={mqtt.connack_string(rc)}")
             self.flag_connected = 1
         else:
-            logger.warning(f"Bad connection Returned code={rc}")
+            logger.warning(f"Bad connection Returned code={mqtt.connack_string(rc)}")
+            time.sleep(5)
 
     def on_disconnect(self, client, userdata, rc):
         logger = logging.getLogger(str(f"on_disconnect-{__name__}"))
+        logger.info("MQTT disconnection") 
         if rc != 0:
-            logger.warning("Unexpected MQTT disconnection. Will auto-reconnect")
+            logger.warning(f"Unexpected MQTT disconnection code={mqtt.connack_string(rc)}. Will auto-reconnect in 5 seconds.")
+            time.sleep(5)
         self.flag_connected = 0
 
     def publish(self, *args, **kwargs):

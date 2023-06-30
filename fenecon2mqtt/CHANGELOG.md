@@ -1,4 +1,7 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.9
+- Changed MQTT reconnect handling.
+- Added more description when facing MQTT errors
 ## 0.2.8
 - ignore Fenecons new unit Wh_Σ for energy values which was introduced in June 23
 ## 0.2.7
