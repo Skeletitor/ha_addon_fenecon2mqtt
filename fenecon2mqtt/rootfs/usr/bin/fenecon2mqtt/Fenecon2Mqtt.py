@@ -6,7 +6,7 @@ from logging.handlers import RotatingFileHandler
 
 import config
 from FeneconClient import FeneconClient
-from HassioMqttClient import HassioMqttClient
+from MqttClient import MqttClient
 
 
 def setup_root_logger():
@@ -49,7 +49,7 @@ def main():
     logger = setup_root_logger()
 
     # Connect to Hassio integrated MQTT
-    mqtt = HassioMqttClient()
+    mqtt = MqttClient()
 
     # start connect to Fenecon websocket
     s = FeneconClient(mqtt)

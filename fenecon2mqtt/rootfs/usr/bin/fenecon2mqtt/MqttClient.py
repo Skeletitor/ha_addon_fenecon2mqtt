@@ -6,7 +6,7 @@ import config
 import paho.mqtt.client as mqtt
 
 
-class HassioMqttClient:
+class MqttClient:
     flag_connected = 0
 
     def __init__(self):
