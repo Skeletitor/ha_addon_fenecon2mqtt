@@ -1,4 +1,7 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.10
+- Changed device name in Homeassistant. Devicenames should not match Entitynames in HA after 2024.2.0 version.
+- updated paho_mqtt and websocket_client libraries
 ## 0.2.9
 - Changed MQTT reconnect handling.
 - Added more description when facing MQTT errors

@@ -5,13 +5,13 @@ import logging
 import config
 
 json_template_device = {
-        "name":"Fenecon Home",
+        "name":"Fenecon Home Battery Inverter",
         "uniq_id":"fenecon",
         "stat_t": "",
         "val_tpl":"",
         "ops" : "",
         "dev":{
-            "name":"Fenecon Home",
+            "name":"Battery Inverter",
             "sw":"",
             "mf":"Fenecon",
             "mdl":"Fenecon Home",
