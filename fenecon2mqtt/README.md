@@ -16,6 +16,9 @@ This add-on connects to Fenecon Home (FEMS) websocket and subscribes to the conf
 
 Thanks goes to [@benniju] who gives the idea of using websocket.
 
+## Support forum
+Support forum: [hassio forum]
+
 ## Requirements
 
 1. Homeassistant with a running Supervisor
