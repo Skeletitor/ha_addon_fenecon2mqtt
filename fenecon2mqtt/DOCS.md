@@ -1,5 +1,7 @@
 # Home Assistant Add-on: Fenecon2Mqtt
 
+Support forum: [hassio forum]
+
 ## How to use
 
 ### Requirements
@@ -31,7 +33,7 @@ You have to change the **_null_** ones
 | Config                | Type                         | (default)Values | Description                                                                                           |
 | --------------------- | ---------------------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
 | fems_ip               | string (mandatory)           | **_null_**      | IP or DNS Name of Fenecon Home/FEMS                                                                   |
-| fems_password         | string (mandatory)           | **_null_**      | Password of guest user                                                                                |
+| fems_password         | string (mandatory)           | **_null_**      | Password of guest user [fems password]                                                                               |
 | fems_request_channels | array of strings (mandatory) | a lot           | List of FEMS channels to subscribe. _Change it if you know what you're doing_ [FEMS request channels] |
 
 ### General options for Add-on
@@ -123,3 +125,4 @@ You'll need Fenecons (OpenEMS) guest user password: [fems password]
 [sensor overwrite]: #ha-sensor_overwrite
 [fems request channels]: #fenecon-fems_request_channels
 [fems password]: https://letmegooglethat.com/?q=fenecon+guest+user+password
+[hassio forum]: https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823
