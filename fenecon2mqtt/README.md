@@ -57,3 +57,4 @@ Support forum: [hassio forum]
 [fenecon home 10]: https://fenecon.de/fenecon-home-10/
 [openems]: https://openems.io/
 [Heckert Symphon-E]: https://www.heckertsolar.com/symphon-e/
+[hassio forum]: https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823
