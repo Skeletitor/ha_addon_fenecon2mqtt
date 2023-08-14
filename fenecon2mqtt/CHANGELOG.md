@@ -1,4 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 0.2.11
+- Modified HA endity state class, entity device class, entity unit of measurement of FEMS entities without given units.
+- Use FEMS entity name to set HA entity unit to "V" if FEMS entity type is integer. No need to use manual mapping anymore!  
+- Display user readable error message when FEMS password is wrong. 
 ## 0.2.10
 - Changed device name in Homeassistant. Devicenames should not match Entitynames in HA after 2024.2.0 version.
 - updated paho_mqtt and websocket_client libraries

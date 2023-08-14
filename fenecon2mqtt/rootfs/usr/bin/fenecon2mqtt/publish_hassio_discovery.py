@@ -38,7 +38,7 @@ json_template_entity = {
 
 def get_entity_device_class(unit):
     logger = logging.getLogger(__name__)
-    def_cla = "None"
+    def_cla = None
     if unit == "%":
         def_cla = "battery"
     elif unit in ["W", "mW"]:
@@ -51,20 +51,32 @@ def get_entity_device_class(unit):
         def_cla = "current"
     elif unit == "C":
         def_cla = "temperature"
+    #elif unit == "None":
+    #    def_cla = None
     return def_cla
 
 def get_entity_state_class(device_class):
     logger = logging.getLogger(__name__)
-    state_class = "None"
+    state_class = None
     if device_class == "energy":
         state_class = "total_increasing"
     elif device_class in ['battery', 'power', 'voltage', 'current', 'temperature']:
         state_class = "measurement"
     return state_class
 
-def get_entity_device_unit(fenecon_unit):
+def get_fems_values(fenecon_config, component, channel):
     logger = logging.getLogger(__name__)
-    return fenecon_unit
+    fems_entity_unit = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit']
+    fems_entity_type = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['type']
+
+    return fems_entity_unit, fems_entity_type
+
+def get_entity_unit_of_measurement(unit, name, type):
+    logger = logging.getLogger(__name__)
+    if type == "INTEGER" and "Voltage".casefold() in name.casefold():
+        unit = "V"
+    # Correct Fenecons new Sum Unit. Return None if no unit is given
+    return None if unit == "" else unit.replace('_Σ','')
 
 def get_entity_value_template(value_template):
     logger = logging.getLogger(__name__)
@@ -120,9 +132,9 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
 
         json_template_entity['name'] = ow_name or str(f"{config.hassio['sensor_name_prefix']} {c}")
         json_template_entity['uniq_id'] = hassio_uid
-        json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
-        # correct sum unit from fenecon
-        json_template_entity['unit_of_meas'] = json_template_entity['unit_of_meas'].replace('_Σ','')
+        fems_unit, fems_type  = get_fems_values(fenecon_config, component, channel)
+#        json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
+        json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_unit_of_measurement(fems_unit , json_template_entity['name'], fems_type)
         json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template("{{value}}")
         json_template_entity['dev_cla'] =  ow_device_class or get_entity_device_class(json_template_entity['unit_of_meas'])
         json_template_entity['stat_cla'] =  ow_state_class or get_entity_state_class(json_template_entity['dev_cla'])

@@ -82,8 +82,18 @@ class FeneconClient:
                 self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]))
 
         elif msg_id == self.uuid_str_auth:
-            # process authorization reqest
-            return
+            # process authorization reqest  
+            # {'jsonrpc': '2.0', 'id': '3f56cce8-553f-4075-890e-30d00a61e2ca', 'error': {'code': 1003, 'message': 'Authentication failed', 'data': []}}
+            if msg_dict.get('error') is None:
+                logger.info("FEMS Authentication successfull")
+                return
+            
+            error_code = msg_dict['error']['code']
+            error_msg = msg_dict['error']['message']
+            logger.error(f"FEMS Authentication failed. Error ({error_code}): {error_msg}")
+            logger.error('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
+            time.sleep(5)
+            quit()
         elif msg_id == self.uuid_str_getEdge:
             # process edge data
             self.version = msg_dict['result']['edge']['version']
