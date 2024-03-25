@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.13
+
+- revert back
+
 ## 0.2.12
 
 - moved to
