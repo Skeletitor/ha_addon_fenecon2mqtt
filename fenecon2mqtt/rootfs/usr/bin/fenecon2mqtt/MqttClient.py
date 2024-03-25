@@ -70,7 +70,7 @@ class MqttClient:
         logger = logging.getLogger(__name__)
         logger.debug("clear HA discovery topic")
         if message.retain and str(message.topic).startswith(config.hassio['mqtt_broker_hassio_discovery_queue']):
-            # Only process retained messages form dircovery topic
+            # Only process retained messages form discovery topic
             logger.debug(f'clear HA discovery topic: {message.topic}')
             self.client.publish(message.topic, None, 0, True)
 
