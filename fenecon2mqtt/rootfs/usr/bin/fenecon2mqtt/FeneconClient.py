@@ -47,7 +47,7 @@ class FeneconClient:
 
     def connect_websocket(self):
         logger = logging.getLogger(__name__)
-        logger.info('Try to connect to Fenecons websocket')
+        logger.info('Connect to Fenecons websocket')
 
         ws_uri = str(f"ws://{config.fenecon['fems_ip']}:8085/websocket")
         ws = websocket.WebSocketApp(ws_uri ,
@@ -100,10 +100,10 @@ class FeneconClient:
             return
         elif msg_id == self.uuid_str_getEdgeConfig_request:
             # process edge configuration data
-            logger.info("Edgeconfig received -> purge old Homeassistant discovery topic")
+            logger.debug("Edgeconfig received -> purge old Homeassistant discovery topic")
             self.mqtt.clear_ha_discovery_topic()
 
-            logger.info("Edgeconfig received -> publish new Homeassistant discovery topic")
+            logger.debug("Edgeconfig received -> publish new Homeassistant discovery topic")
             publish_hassio_discovery(self.mqtt, msg_dict, self.version)
             if self.is_docker():
                 logger.info("Dump Fenecon configuration to local docker filesystem")
@@ -144,17 +144,17 @@ class FeneconClient:
         logger = logging.getLogger(__name__)
         self.connect_retry_counter = 0
         # auth
-        logger.info('Fenecon opened connection -> send authenticate')
+        logger.debug('Fenecon opened connection -> send authenticate')
         ws.send(self.json_auth_passwd)
         time.sleep(0.5)
         # get edge
-        logger.info('Fenecon opened connection -> send getEdge')
+        logger.debug('Fenecon opened connection -> send getEdge')
         ws.send(self.json_get_edge)
         time.sleep(0.5)
         # get edgeConfig
-        logger.info('Fenecon opened connection -> send getEdge configuration')
+        logger.debug('Fenecon opened connection -> send getEdge configuration')
         ws.send(self.json_get_edgeconfig_req)
         time.sleep(0.5)
         # Subscribe
-        logger.info('Fenecon opened connection -> send subscribe')
+        logger.debug('Fenecon opened connection -> send subscribe')
         ws.send(self.json_subscribe_req)

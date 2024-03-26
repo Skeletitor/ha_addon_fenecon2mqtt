@@ -104,7 +104,7 @@ def get_hassio_overwrite(channel, config):
 
 def publish_hassio_discovery(mqtt, fenecon_config, version):
     logger = logging.getLogger(__name__)
-    logger.info('start publish hassio dicovery')
+    logger.info('Start publish hassio dicovery')
 
     for c in config.fenecon['fems_request_channels']:
         #if c == '_meta/Version':
@@ -149,5 +149,5 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
         else:
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity), 0, True)
 
-    logger.info('end publish hassio dicovery')
+    logger.info('End publish hassio dicovery')
     return

@@ -1,5 +1,12 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.14
+
+- moved to
+  - paho_mqtt 2.0.0
+  - rel 0.4.9.9
+  - websocket_client 1.7.0
+
 ## 0.2.13
 
 - revert back

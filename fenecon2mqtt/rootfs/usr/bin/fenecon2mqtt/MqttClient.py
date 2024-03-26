@@ -16,11 +16,12 @@ class MqttClient:
         
         while self.flag_connected == 0 and first_connect_retry_counter < first_connect_retry_max:
             logger.info('Connect to MQTT broker')
-            self.client = mqtt.Client(f"Fenecon2Hassio_mqttClient_{first_connect_retry_counter}", clean_session=True)
+            self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, f"Fenecon2Hassio_mqttClient_{first_connect_retry_counter}", clean_session=True)
             self.client.username_pw_set(config.hassio['mqtt_broker_user'], config.hassio['mqtt_broker_passwd'])
-            self.client.on_connect = self.on_connect
-            self.client.on_disconnect = self.on_disconnect
-            self.client.on_message = self.on_message
+            self.client.on_connect = self.connect_callback
+            self.client.on_disconnect = self.disconnect_callback
+            self.client.on_log = self.log_callback
+#            self.client.on_message = self.on_message
             try:
                 self.client.connect(config.hassio['mqtt_broker_host'], config.hassio['mqtt_broker_port'], config.hassio['mqtt_broker_keepalive'])
                 self.client.loop_start()
@@ -41,20 +42,24 @@ class MqttClient:
             time.sleep(5)
             quit()
 
-    def on_connect(self, client, userdata, flags, rc):
-        logger = logging.getLogger(str(f"on_connect-{__name__}"))
-        if rc==0:
-            logger.info(f"connected OK Returned code={mqtt.connack_string(rc)}")
-            self.flag_connected = 1
-        else:
-            logger.warning(f"Bad connection Returned code={mqtt.connack_string(rc)}")
+    def connect_callback(self, client, userdata, flags, reason_code, properties):
+        logger = logging.getLogger(str(f"connect_callback-{__name__}"))
+        if reason_code.is_failure:
+            #print(f"Failed to connect: {reason_code}. loop_forever() will retry connection")
+            logger.warning(f"Bad connection Returned code={mqtt.connack_string(reason_code)}")
             time.sleep(5)
-
-    def on_disconnect(self, client, userdata, rc):
+        else:
+            logger.info(f"connected OK Returned code={mqtt.connack_string(reason_code)}")
+            # we should always subscribe from on_connect callback to be sure
+            # our subscribed is persisted across reconnections.
+            client.subscribe("$SYS/#")
+            self.flag_connected = 1
+    
+    def disconnect_callback(self, client, userdata, disconnect_flags, reason_code, properties):
         logger = logging.getLogger(str(f"on_disconnect-{__name__}"))
         logger.info("MQTT disconnection") 
-        if rc != 0:
-            logger.warning(f"Unexpected MQTT disconnection code={mqtt.connack_string(rc)}. Will auto-reconnect in 5 seconds.")
+        if reason_code.is_failure:
+            logger.warning(f"Unexpected MQTT disconnection code={mqtt.connack_string(reason_code)}. Will auto-reconnect in 5 seconds.")
             time.sleep(5)
         self.flag_connected = 0
 
@@ -66,13 +71,18 @@ class MqttClient:
         #else:
             # Wait to reconnect
 
-    def on_message(self, client, userdata, message):
-        logger = logging.getLogger(__name__)
-        logger.debug("clear HA discovery topic")
-        if message.retain and str(message.topic).startswith(config.hassio['mqtt_broker_hassio_discovery_queue']):
-            # Only process retained messages form discovery topic
-            logger.debug(f'clear HA discovery topic: {message.topic}')
-            self.client.publish(message.topic, None, 0, True)
+    def log_callback(self, client, userdata, level, buf):
+        if str(config.log_level).upper() == 'DEBUG':
+            logger = logging.getLogger(__name__)
+            logger.info(f'MQTT logger - Level: {level} Message: {buf}') 
+
+#    def on_message(self, client, userdata, message):
+#        logger = logging.getLogger(__name__)
+#        logger.debug("clear HA discovery topic")
+#        if message.retain and str(message.topic).startswith(config.hassio['mqtt_broker_hassio_discovery_queue']):
+#            # Only process retained messages form discovery topic
+#            logger.debug(f'clear HA discovery topic: {message.topic}')
+#            self.client.publish(message.topic, None, 0, True)
 
     def clear_ha_discovery_topic(self):
         # Just to clean up old retained messages in discovery topic
@@ -81,10 +91,12 @@ class MqttClient:
         if self.flag_connected == 0:
             logger.warning("not connected")
             return
-        
-        logger.info('Subscribe to discovery topic')
+        logger.info('Purge old Homeassistant discovery topic')
+        logger.debug('Subscribe to discovery topic')
         self.client.subscribe(f"{config.hassio['mqtt_broker_hassio_discovery_queue']}/#")
         time.sleep(1)
-        logger.info('Unsubscribe to discovery topic')
+        self.client.publish(f"{config.hassio['mqtt_broker_hassio_discovery_queue']}", None, 0, True)
+        logger.debug('Unsubscribe to discovery topic')
         self.client.unsubscribe(f"{config.hassio['mqtt_broker_hassio_discovery_queue']}/#")
+        exit
         return
