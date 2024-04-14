@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.15
+
+- !!!**update manually or reinstall the addon**!!! added new default entities/channels to be requested in FEMS see -> [hassio forum](https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823).
+- added value template for state values of inverter and charger0 an charger1. States are human readable now. **Thx BenniJu**
+- cleaned up docker image files
+
 ## 0.2.14
 
 - moved to

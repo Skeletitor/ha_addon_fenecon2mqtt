@@ -105,6 +105,13 @@ def get_hassio_overwrite(channel, config):
 def publish_hassio_discovery(mqtt, fenecon_config, version):
     logger = logging.getLogger(__name__)
     logger.info('Start publish hassio dicovery')
+    state_mapper = '''{% set mapper = {
+    "0": "Ok",
+    "1": "Info",
+    "2": "Warning",
+    "3": "Fault"} %}
+{% set state = value | string %}
+{{ mapper[state] if state in mapper else state }}'''
 
     for c in config.fenecon['fems_request_channels']:
         #if c == '_meta/Version':
@@ -144,9 +151,12 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             json_template_device['dev']['sw'] = version
             json_template_device['ops'] = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['text']
             json_template_device['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
-            json_template_device['val_tpl'] = "{{value}}"
+            #json_template_device['val_tpl'] = "{{value}}"
+            json_template_device['val_tpl'] = state_mapper
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "/config", json.dumps(json_template_device), 0, True)
         else:
+            if c in ["charger0/State", "charger1/State"]:
+                json_template_entity['val_tpl'] = state_mapper
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity), 0, True)
 
     logger.info('End publish hassio dicovery')

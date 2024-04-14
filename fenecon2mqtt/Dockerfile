@@ -19,7 +19,6 @@ RUN cd /tmp \
     && pip3 install \
         --no-cache-dir \
         --prefer-binary \
-        --find-links "https://wheels.home-assistant.io/alpine-3.17.3/${BUILD_ARCH}/" \
         -r ./requirements.txt
 
 # Copy root filesystem

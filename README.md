@@ -16,7 +16,7 @@ This repository contains the following add-ons
 ![Supports armv7 Architecture][armv7-shield]
 ![Supports i386 Architecture][i386-shield]
 
-_Addon is based on Hassios example add-on and Alpine Python images. Thank you very much (Hassio Devs) for you excelent work!_
+_Add-on is based on Hassios example add-on and Alpine Python images. Thank you very much (Hassio Devs) for you excelent work!_
 
 <!--
 
