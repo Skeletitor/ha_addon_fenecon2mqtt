@@ -36,6 +36,21 @@ json_template_entity = {
         }
     }
 
+val_tmpl_state = '''{% set mapper = {
+    "0": "Ok",
+    "1": "Info",
+    "2": "Warning",
+    "3": "Fault"} %}
+{% set state = value | string %}
+{{ mapper[state] if state in mapper else state }}'''
+
+val_tmpl_gridmode = '''{% set mapper = {
+    "-1": "Undefined",
+    "1": "On-Grid",
+    "2": "Off-Grid"} %}
+{% set gridmode = value | string %}
+{{ mapper[gridmode] if gridmode in mapper else gridmode }}'''
+
 def get_entity_device_class(unit):
     logger = logging.getLogger(__name__)
     def_cla = None
@@ -78,9 +93,16 @@ def get_entity_unit_of_measurement(unit, name, type):
     # Correct Fenecons new Sum Unit. Return None if no unit is given
     return None if unit == "" else unit.replace('_Σ','')
 
-def get_entity_value_template(value_template):
+def get_entity_value_template(c):
     logger = logging.getLogger(__name__)
-    return value_template
+
+    ret_val = "{{value}}"
+    if c in ["charger0/State", "charger1/State"]: 
+        ret_val = val_tmpl_state
+    elif c == "_sum/GridMode":
+        ret_val = val_tmpl_gridmode
+
+    return ret_val
 
 def get_hassio_overwrite(channel, config):
     logger = logging.getLogger(__name__)
@@ -105,13 +127,6 @@ def get_hassio_overwrite(channel, config):
 def publish_hassio_discovery(mqtt, fenecon_config, version):
     logger = logging.getLogger(__name__)
     logger.info('Start publish hassio dicovery')
-    state_mapper = '''{% set mapper = {
-    "0": "Ok",
-    "1": "Info",
-    "2": "Warning",
-    "3": "Fault"} %}
-{% set state = value | string %}
-{{ mapper[state] if state in mapper else state }}'''
 
     for c in config.fenecon['fems_request_channels']:
         #if c == '_meta/Version':
@@ -142,7 +157,7 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
         fems_unit, fems_type  = get_fems_values(fenecon_config, component, channel)
 #        json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_device_unit(fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['unit'])
         json_template_entity['unit_of_meas'] = ow_device_unit or get_entity_unit_of_measurement(fems_unit , json_template_entity['name'], fems_type)
-        json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template("{{value}}")
+        json_template_entity['val_tpl'] = ow_value_template or get_entity_value_template(c)
         json_template_entity['dev_cla'] =  ow_device_class or get_entity_device_class(json_template_entity['unit_of_meas'])
         json_template_entity['stat_cla'] =  ow_state_class or get_entity_state_class(json_template_entity['dev_cla'])
         json_template_entity['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
@@ -152,11 +167,9 @@ def publish_hassio_discovery(mqtt, fenecon_config, version):
             json_template_device['ops'] = fenecon_config['result']['payload']['result']['components'][component]['channels'][channel]['text']
             json_template_device['stat_t'] =  config.hassio['mqtt_broker_hassio_queue'] + "/" + hassio_uid
             #json_template_device['val_tpl'] = "{{value}}"
-            json_template_device['val_tpl'] = state_mapper
+            json_template_device['val_tpl'] = val_tmpl_state
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] + "/config", json.dumps(json_template_device), 0, True)
         else:
-            if c in ["charger0/State", "charger1/State"]:
-                json_template_entity['val_tpl'] = state_mapper
             mqtt.publish(config.hassio['mqtt_broker_hassio_discovery_queue'] +"/" + hassio_uid + "/config", json.dumps(json_template_entity), 0, True)
 
     logger.info('End publish hassio dicovery')
