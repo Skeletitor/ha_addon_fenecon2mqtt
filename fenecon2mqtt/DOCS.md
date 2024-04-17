@@ -81,7 +81,12 @@ e.g.
 ```
 
 This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available channels are included.
-**!! Take care what your doing here !!**
+
+> [!CAUTION]
+> Take care what your doing here
+
+> [!TIP]
+> Use _sum/ProductionAcActivePower to get power values of external connected sources (e.g. inverters,...) 
 
 ## Users and passwords
 
@@ -105,7 +110,8 @@ ssh to /share/mosquitto.
 
 Add the following code in your acl file to provide the user permissions to the default mqqt topic's. [mosquitto addon acl]
 
-**Take care, you'll have to change these entries if you change the topics in container config** Replace the "<< USERNAME >>" with your newly created username.
+> [!NOTE]
+> Take care, you'll have to change these entries if you change the topics in container config. Replace the "<< USERNAME >>" with your newly created username.
 
 ```
 user <<USERNAME>>
