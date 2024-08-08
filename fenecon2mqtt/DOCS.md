@@ -2,6 +2,8 @@
 
 Support forum: [hassio forum]
 
+---
+
 ## How to use
 
 ### Requirements
@@ -42,6 +44,8 @@ You have to change the **_null_** ones
 | --------- | ---------------- | --------------------------------------------- | ---------------- |
 | log_level | list (mandatory) | CRITICAL\|ERROR\|WARNING\|INFO\|DEBUG\|NOTSET | Add-on Log Level |
 
+---
+
 ## Special configuration options
 
 ### HA-`sensor_overwrite`
@@ -80,13 +84,15 @@ e.g.
 - _sum/EssSoc
 ```
 
-This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available channels are included.
+This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available component are included. Channels are missing since FEMS 2024.06.*
 
 > [!CAUTION]
 > Take care what your doing here
 
 > [!TIP]
 > Use _sum/ProductionAcActivePower to get power values of external connected sources (e.g. inverters,...) 
+
+---
 
 ## Users and passwords
 

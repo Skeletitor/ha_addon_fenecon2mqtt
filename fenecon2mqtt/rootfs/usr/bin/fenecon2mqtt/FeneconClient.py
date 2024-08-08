@@ -21,6 +21,8 @@ class FeneconClient:
     uuid_str_getEdgeConfig_request = str(uuid.uuid4())
     uuid_str_subscribe_payload = str(uuid.uuid4())
     uuid_str_subscribe_request = str(uuid.uuid4())
+    #uuid_str_getComponentChannels_payload = str(uuid.uuid4())
+    #uuid_str_getComponentChannels_req = str(uuid.uuid4())
 
     # JSON request templates
     json_auth_passwd = request_json("authenticateWithPassword", params={"password":config.fenecon['fems_password']}, id=uuid_str_auth)
@@ -29,6 +31,8 @@ class FeneconClient:
     json_get_edgeconfig_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_edgeconfig_payload)}, id=uuid_str_getEdgeConfig_request)
     json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.fenecon['fems_request_channels']}, id=uuid_str_subscribe_payload)
     json_subscribe_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
+    #json_get_componentChannels_payload = request_json("getChannelsOfComponent", params={"componentId": "ess0", "channelId": "_sum"}, id=uuid_str_getComponentChannels_payload)
+    #json_get_componentChannels_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_componentChannels_payload)}, id=uuid_str_getComponentChannels_req)
 
     def __init__(self, mqtt):
         logger = logging.getLogger(__name__)
@@ -95,15 +99,25 @@ class FeneconClient:
             time.sleep(5)
             quit()
         elif msg_id == self.uuid_str_getEdge:
+            logger.info('getEdge received')
             # process edge data
-            self.version = msg_dict['result']['edge']['version']
+            try:
+                self.version = msg_dict['result']['edge']['version']
+            except Exception:
+                self.version = "N/A"
             return
         elif msg_id == self.uuid_str_getEdgeConfig_request:
             # process edge configuration data
-            logger.debug("Edgeconfig received -> purge old Homeassistant discovery topic")
+            logger.info("Edgeconfig received -> purge old Homeassistant discovery topic")
             self.mqtt.clear_ha_discovery_topic()
 
             logger.debug("Edgeconfig received -> publish new Homeassistant discovery topic")
+            # Iterate over all components and ask for their channels
+            #for comp in config.fenecon['fems_request_components']:
+            #    print(comp)
+            #logger.warning(self.json_get_componentChannels_req)
+            #ws.send(self.json_get_componentChannels_req)
+
             publish_hassio_discovery(self.mqtt, msg_dict, self.version)
             if self.is_docker():
                 logger.info("Dump Fenecon configuration to local docker filesystem")
@@ -113,6 +127,9 @@ class FeneconClient:
                 except Exception:
                     logger.error("Dump Fenecon configration to local docker filesystem failed")
             return
+        #elif msg_id == self.uuid_str_getComponentChannels_req:
+        #    logger.info("Channel received for component -> purge old Homeassistant discovery topic")
+        #    return
 
     def on_error(self, ws, error):
         logger = logging.getLogger(__name__)
@@ -130,15 +147,6 @@ class FeneconClient:
         logger.warning('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
         time.sleep(5)
         quit()
-        #self.connect_retry_counter += 1
-        #if self.connect_retry_max >= self.connect_retry_counter:
-        #    time.sleep(30)
-        #    logger.warning(f'Trying to connect ({self.connect_retry_counter}/{self.connect_retry_max}). Fenecon not reachable. Check availability and config.')
-        #    logger.warning(f'  Fenecon IP    : {config.fenecon["fems_ip"]}')
-        #    self.connect_websocket()
-        #else:
-        #    logger.error('Fenecon not reachable. Exit!')
-        #    quit()
 
     def on_open(self, ws):
         logger = logging.getLogger(__name__)

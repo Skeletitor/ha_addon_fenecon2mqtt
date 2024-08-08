@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.17
+
+- Changed from using FEMS provided sensor data to (dirty) guessing sensor units and sensor classes as Fenecon changed their backend.
+- Fixed a bug wich didn't clean up Homeassistants MQTT autodiscovery topic
+- fenecon-config.json is still writen. But it contains data of FEMS-components only.
+
 ## 0.2.16
 
 - !!!**update manually or reinstall the addon**!!! added new default entities/channels to be requested in FEMS see -> [hassio forum](https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823).
