@@ -103,4 +103,4 @@ schema:
       - "str"
   log_level: list(CRITICAL|ERROR|WARNING|INFO|DEBUG|NOTSET)
 ## comment the next line for local development
-#image: "ghcr.io/skeletitor/{arch}-addon-fenecon2mqtt"
+image: "ghcr.io/skeletitor/{arch}-addon-fenecon2mqtt"
