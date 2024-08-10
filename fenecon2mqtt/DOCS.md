@@ -84,7 +84,8 @@ e.g.
 - _sum/EssSoc
 ```
 
-This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available component are included. Channels are missing since FEMS 2024.06.*
+This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available components  ~~and channels ~~ are included. Channels are missing since FEMS 2024.06.*
+As a workaround you can do a REST API call and get a List of all available channels (Thx:[rest call channels]): curl -s http://x:user@FEMS-IP:80/rest/channel/.*/.* -o channel-names.txt
 
 > [!CAUTION]
 > Take care what your doing here
@@ -138,3 +139,4 @@ You'll need Fenecons (OpenEMS) guest user password: [fems password]
 [fems request channels]: #fenecon-fems_request_channels
 [fems password]: https://letmegooglethat.com/?q=fenecon+guest+user+password
 [hassio forum]: https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823
+[rest call channels]: https://community.home-assistant.io/t/add-on-fenecon2mqtt-connect-fenecon-home-openems-energy-storage-systems-to-homeassistant/561823/36
