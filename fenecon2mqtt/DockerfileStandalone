@@ -1,0 +1,24 @@
+FROM python:3-bookworm
+
+COPY rootfs/usr/bin/fenecon2mqtt /usr/bin/fenecon2mqtt
+COPY standalone/fenecon2mqtt_standalone.sh /usr/bin/fenecon2mqtt.sh 
+
+RUN mkdir -p /data
+COPY requirements.txt /tmp/requirements.txt
+RUN cd /tmp \
+    && pip3 install \
+        --no-cache-dir \
+        --prefer-binary \
+        -r ./requirements.txt
+RUN rm /tmp/requirements.txt
+
+ENV MQTT_POST=
+ENV MQTT_PORT=
+ENV MQTT_USER=
+ENV MQTT_PASSWORD=
+ENV FEMS_IP=
+ENV FEMS_PASSWORD=
+
+VOLUME [ "/data" ]
+
+ENTRYPOINT ["bash", "/usr/bin/fenecon2mqtt.sh"]
