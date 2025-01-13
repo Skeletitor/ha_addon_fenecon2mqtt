@@ -11,7 +11,7 @@ labels:
   org.opencontainers.image.source: "https://github.com/home-assistant/addons-example"
   org.opencontainers.image.licenses: "Apache License 2.0"
 args:
-  TEMPIO_VERSION: "2021.09.0"
+  TEMPIO_VERSION: "2024.11.2"
 #codenotary:
-#  signer: tobias.roehmer@outlook.de
+#  signer: 
 #  base_image: notary@home-assistant.io

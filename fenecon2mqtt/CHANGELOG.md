@@ -1,5 +1,13 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.18
+
+- fixed 'options must be used' error message in HA logs
+- updated
+  - paho_mqtt 2.1.0
+  - rel 0.4.9.19
+  - websocket_client 1.8.0
+
 ## 0.2.17
 
 - Changed from using FEMS provided sensor data to (dirty) guessing sensor units and sensor classes as Fenecon changed their backend.
