@@ -1,0 +1,138 @@
+fems_channels_dict:
+  - channel: _sum/ConsumptionActiveEnergy
+    EN: Total Energy Consumption
+    DE: Gesamtenergieverbrauch
+  - channel: _sum/ConsumptionActivePower
+    EN: Current Power Consumption
+    DE: Aktuelle Verbrauchsleistung
+  - channel: _sum/ConsumptionActivePowerL1
+    EN: Current Power Consumption Phase L1
+    DE: Aktuelle Verbrauchsleistung Phase L1
+  - channel: _sum/ConsumptionActivePowerL2
+    EN: Current Power Consumption Phase L2
+    DE: Aktuelle Verbrauchsleistung Phase L2
+  - channel: _sum/ConsumptionActivePowerL3
+    EN: Current Power Consumption Phase L3
+    DE: Aktuelle Verbrauchsleistung Phase L3
+  - channel: _sum/EssActivePower
+    EN: Current Battery Power
+    DE: Aktuelle Batterieleistung 
+  - channel: _sum/EssActivePowerL1
+    EN: Current Battery Power Phase L1
+    DE: Aktuelle Batterieleistung Phase L1
+  - channel: _sum/EssActivePowerL2
+    EN: Current Battery Power Phase L2
+    DE: Aktuelle Batterieleistung Phase L2
+  - channel: _sum/EssActivePowerL3
+    EN: Current Battery Power Phase L3
+    DE: Aktuelle Batterieleistung Phase L3
+  - channel: _sum/EssDcChargeEnergy
+    EN: Total Battery Charging Energy
+    DE: Gesamte Batterieladeenergie
+  - channel: _sum/EssDcDischargeEnergy
+    EN: Total Battery Discharging Energy
+    DE: Gesamte Batterieentladeenergie
+  - channel: _sum/EssSoc
+    EN: Battery State of Charge
+    DE: Batterieladezustand
+  - channel: _sum/GridActivePower
+    EN: Current Grid Power Flow
+    DE: Aktueller Netzstromfluss
+  - channel: _sum/GridActivePowerL1
+    EN: Current Grid Power Flow Phase L1
+    DE: Aktueller Netzstromfluss Phase L1
+  - channel: _sum/GridActivePowerL2
+    EN: Current Grid Power Flow Phase L2
+    DE: Aktueller Netzstromfluss Phase L2
+  - channel: _sum/GridActivePowerL3
+    EN: Current Grid Power Flow Phase L3
+    DE: Aktueller Netzstromfluss Phase L3
+  - channel: _sum/GridBuyActiveEnergy
+    EN: Total Grid Energy Consumption
+    DE: Gesamter Netzenergieverbrauch
+  - channel: _sum/GridMaxActivePower
+    EN: Maximum Grid Power
+    DE: Maximale Netzleistung
+  - channel: _sum/GridMinActivePower
+    EN: Minimum Grid Power
+    DE: Minimale Netzleistung
+  - channel: _sum/GridMode
+    EN: Current Operational Mode
+    DE: Aktueller Betriebsmodus
+  - channel: _sum/GridSellActiveEnergy
+    EN: Total Grid Energy Export
+    DE: Gesamter Netzenergieexport
+  - channel: _sum/ProductionActiveEnergy
+    EN: Total Energy Production
+    DE: Gesamte Energieproduktion
+  - channel: _sum/ProductionActivePower
+    EN: Current Power Production
+    DE: Aktuelle prozierte Leistung
+  - channel: _sum/ProductionDcActualPower
+    EN: Current DC Power Production
+    DE: Aktuelle prozierte DC Leistung
+  - channel: _sum/ProductionMaxActivePower
+    EN: Peak Power Production
+    DE: Spitzenstromproduktion
+  - channel: _sum/State
+    EN: System State
+    DE: Systemstatus
+  - channel: battery0/Soh
+    EN: Battery 0 State Of Health
+    DE: Batterie 0 Gesundheitszustand
+  - channel: battery0/Tower0NoOfCycles
+    EN: Battery 0 Cycle Count
+    DE: Batterie 0 Ladezyklenzahl
+  - channel: battery0/Tower0PackVoltage
+    EN: Battery 0 Tower0 Pack Voltage
+    DE: Batterie 0 Tower0 Packetspannung
+  - channel: batteryInverter0/AirTemperature
+    EN: Inverter 0 Air Temperature
+    DE: Inverter 0 Lufttemperatur
+  - channel: batteryInverter0/ArmFmVersion
+    EN: Inverter 0 ARM Firmware Version
+    DE: Inverter 0 ARM Firmware-Version
+  - channel: batteryInverter0/BmsPackTemperature
+    EN: Inverter 0 Battery Pack Temperature
+    DE: Inverter 0 Batteriepacktemperatur
+  - channel: batteryInverter0/DspFmVersionMaster
+    EN: Inverter 0 DSP Firmware Version (Master)
+    DE: nverter 0 DSP Firmware-Version (Master)
+  - channel: batteryInverter0/DspFmVersionSlave
+    EN: Inverter 0 DSP Firmware Version (Slave)
+    DE: nverter 0 DSP Firmware-Version (Slave)
+  - channel: batteryInverter0/RadiatorTemperature
+    EN: Inverter 0 Radiator Temperature
+    DE: Inverter 0 Radiator Temperatur
+  - channel: batteryInverter0/TotalBackUpLoadPower
+    EN: Total Backup Load Power
+    DE: Gesamte Leistung Backup-Last
+  - channel: charger0/ActualPower
+    EN: Charger 0 Current Power
+    DE: Ladegerät 0 aktuelle Leistung
+  - channel: charger0/Current
+    EN: Charger 0 Current
+    DE: Ladegerät 0 Strom
+  - channel: charger0/State
+    EN: Charger 0 State
+    DE: Ladegerät 0 Status
+  - channel: charger0/Voltage
+    EN: Charger 0 Voltage
+    DE: Ladegerät 0 Spannung
+  - channel: charger1/ActualPower
+    EN: Charger 1 Current Power
+    DE: Ladegerät 1 aktuelle Leistung
+  - channel: charger1/Current
+    EN: Charger 1 Current
+    DE: Ladegerät 0 Strom
+  - channel: charger1/State
+    EN: Charger 1 State
+    DE: Ladegerät 1 Status
+  - channel: charger1/Voltage
+    EN: Charger 1 Voltage
+    DE: Ladegerät 1 Spannung
+  - channel: ess0/Capacity
+    EN: Nominal Power Storage Capacity
+  - channel: ess0/DcDischargePower
+    EN: Current Discharge Power
+    DE: Aktuelle Entladeleistung

@@ -1,5 +1,21 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.3.0
+
+!!! **Breaking change. Reinstall the add-on** !!!
+
+1. save your configuration
+2. delete this add-on
+3. reinstall it
+4. update the new configuration with your values (credentials, IP addresses, channels, ...)
+
+- **introduced new configuration of channels**: sensor_overwrite and fems_request_channels are deprecated and can't be used anymore. You have to convert to new fems_channels section.
+- added human readable names for default sensors using german or english language
+- fixed value of channel sum-state
+- line length limitation of add-on configuration should not be a limitation anymore
+- used regex to match Chargers (Home 20 users should test their ChargerXX state values)
+- added readable names to every sensor
+
 ## 0.2.18
 
 - fixed 'options must be used' error message in HA logs

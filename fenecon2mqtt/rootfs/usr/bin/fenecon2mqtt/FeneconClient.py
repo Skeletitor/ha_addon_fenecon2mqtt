@@ -22,14 +22,14 @@ class FeneconClient:
     uuid_str_subscribe_payload = str(uuid.uuid4())
     uuid_str_subscribe_request = str(uuid.uuid4())
     #uuid_str_getComponentChannels_payload = str(uuid.uuid4())
-    #uuid_str_getComponentChannels_req = str(uuid.uuid4())
+    #uuid_str_getComponentChannels_req = str(uuid.uuid4()
 
     # JSON request templates
     json_auth_passwd = request_json("authenticateWithPassword", params={"password":config.fenecon['fems_password']}, id=uuid_str_auth)
     json_get_edge = request_json("getEdge", params={"edgeId":"0"}, id=uuid_str_getEdge)
     json_get_edgeconfig_payload = request_json("getEdgeConfig", params={" ": " "}, id=uuid_str_getEdgeConfig_payload)
     json_get_edgeconfig_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_edgeconfig_payload)}, id=uuid_str_getEdgeConfig_request)
-    json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.fenecon['fems_request_channels']}, id=uuid_str_subscribe_payload)
+    json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.channels2subscribe}, id=uuid_str_subscribe_payload)
     json_subscribe_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
     #json_get_componentChannels_payload = request_json("getChannelsOfComponent", params={"componentId": "ess0", "channelId": "_sum"}, id=uuid_str_getComponentChannels_payload)
     #json_get_componentChannels_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_componentChannels_payload)}, id=uuid_str_getComponentChannels_req)
@@ -83,15 +83,15 @@ class FeneconClient:
             for key in keys:
                 hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{key}").replace("/", "-")
                 # Use not retained messages for sensor values
-                self.mqtt.publish(config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid, str(msg_curent_data[key]))
+                self.mqtt.publish((config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid).lower(), str(msg_curent_data[key]))
 
         elif msg_id == self.uuid_str_auth:
-            # process authorization reqest  
+            # process authorization reqest
             # {'jsonrpc': '2.0', 'id': '3f56cce8-553f-4075-890e-30d00a61e2ca', 'error': {'code': 1003, 'message': 'Authentication failed', 'data': []}}
             if msg_dict.get('error') is None:
                 logger.info("FEMS Authentication successfull")
                 return
-            
+
             error_code = msg_dict['error']['code']
             error_msg = msg_dict['error']['message']
             logger.error(f"FEMS Authentication failed. Error ({error_code}): {error_msg}")

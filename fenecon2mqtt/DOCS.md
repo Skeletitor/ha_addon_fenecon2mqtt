@@ -20,23 +20,36 @@ You have to change the **_null_** ones
 | Config | Type | (default)Values | Description |
 |--- |--- |--- |--- |
 | mqtt\*broker\*host | string (mandatory) | **_null_** | IP of MQTT broker |
-| mqtt_broker_port | number (mandatory) | 1883 | Port of MQTT broker |
-| mqtt_broker_user | string (mandatory) | **_null_** | insert your own mqtt user |
-| mqtt_broker_passwd | string (mandatory) | **_null_** | insert your own mqtt user password |
-| mqtt*broker_keepalive | number (mandatory) | 60 | leave it at 60 seconds |
-| mqtt_broker_hassio_discovery_queue| string (mandatory) | homeassistant/sensor/fenecon | HA's Mqtt discovery topic. _Change it if you know what you're doing_ |
-| mqtt*broker_hassio_queue | string (mandatory) | fenecon | HA's Mqtt topic for sensor values. _Change it if you know what you're doing_ |
-| sensor*overwrite | array of strings (values optional) | | options to overwrite HA sensor properties. _Use it if you know what you're doing._ [Sensor overwrite] |
-| sensor*uid_prefix | string (mandatory) | fems- | prefix used for uid generation in HA. Changing the dafault will create new sensors in HA. _Change it if you know what you're doing_ |
-| sensor_name_prefix | string (optional) | "FEMS: " | prefix used for name/friendly name generation in HA |
+| mqtt\*broker*port | number (mandatory) | 1883 | Port of MQTT broker |
+| mqtt_broker_user | string (mandatory) | \*\*\_null**\* | insert your own mqtt user |
+| mqtt_broker_passwd | string (mandatory) | **\_null*\*\* | insert your own mqtt user password |
+| sensor_name_prefix | string (optional) | "FEMS: " | prefix used for object name generation in HA |
 
 ### Config options for Fenecon (FEMS)
 
-| Config                | Type                         | (default)Values | Description                                                                                           |
-| --------------------- | ---------------------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
-| fems_ip               | string (mandatory)           | **_null_**      | IP or DNS Name of Fenecon Home/FEMS                                                                   |
-| fems_password         | string (mandatory)           | **_null_**      | Password of guest user [fems password]                                                                               |
-| fems_request_channels | array of strings (mandatory) | a lot           | List of FEMS channels to subscribe. _Change it if you know what you're doing_ [FEMS request channels] |
+| Config        | Type               | (default)Values | Description                            |
+| ------------- | ------------------ | --------------- | -------------------------------------- |
+| fems_ip       | string (mandatory) | **_null_**      | IP or DNS Name of Fenecon Home/FEMS    |
+| fems_password | string (mandatory) | **_null_**      | Password of guest user [fems password] |
+
+### Config options for Fenecon Channels (FEMS)
+
+**_fems_channels_** is a collection of multiple objects. It is utilized to specify the channels to import from FEMS and allows for the modification of default values for certain sensor attributes in Home Assistant.
+Each item(object) in this collection consists of the following elements:
+
+| Config         | Type               | (default)Values | Description                                                                               |
+| -------------- | ------------------ | --------------- | ----------------------------------------------------------------------------------------- |
+| channel        | string (mandatory) | **_null_**      | channel ID in FEMS                                                                        |
+| name           | string             | **_null_**      | Sensor name in Homeassistant                                                              |
+| icon           | string             | **_null_**      | Sensor icon in Homeassistant, Use icon picket to get mdi:xys value which cna be used here |
+| device_class   | string             | **_null_**      | Sensor device class in Homeassistant                                                      |
+| state_class    | string             | **_null_**      | Sensor state class in Homeassistant                                                       |
+| device_unit    | string             | **_null_**      | Sensor unit in Homeassistant                                                              |
+| value_template | string             | **_null_**      | Sensor value template in Homeassistant                                                    |
+
+**_language_**
+
+Languafge of the default Sensor names. Supported are German (DE) and Engish (EN)
 
 ### General options for Add-on
 
@@ -46,52 +59,96 @@ You have to change the **_null_** ones
 
 ---
 
+## Default configuration
+
+The default configuration for this add-on appears as follows:
+
+```
+  hassio:
+    mqtt_broker_host: null
+    mqtt_broker_port: 1883
+    mqtt_broker_user: null
+    mqtt_broker_passwd: null
+    sensor_name_prefix: "FEMS: "
+  fenecon:
+    fems_ip: null
+    fems_password: null
+  fems_channels:
+//    - channel: FEMS channel name
+//      name: Human readable Name (optional)
+//      icon: custom mid:ICON
+//      device_class: custom device class (optional)
+//      state_class: custom state class (optional)
+//      device_unit: custom device unit (optional)
+//      value_template: custom value template (optional)
+    - channel: _sum/ConsumptionActiveEnergy
+    - channel: _sum/ConsumptionActivePower
+    - channel: _sum/ConsumptionActivePowerL1
+    - channel: _sum/ConsumptionActivePowerL2
+    - channel: _sum/ConsumptionActivePowerL3
+    - channel: _sum/EssActivePower
+    - channel: _sum/EssActivePowerL1
+    - channel: _sum/EssActivePowerL2
+    - channel: _sum/EssActivePowerL3
+    - channel: _sum/EssDcChargeEnergy
+    - channel: _sum/EssDcDischargeEnergy
+    - channel: _sum/EssSoc
+    - channel: _sum/GridActivePower
+    - channel: _sum/GridActivePowerL1
+    - channel: _sum/GridActivePowerL2
+    - channel: _sum/GridActivePowerL3
+    - channel: _sum/GridBuyActiveEnergy
+    - channel: _sum/GridMaxActivePower
+    - channel: _sum/GridMinActivePower
+    - channel: _sum/GridMode
+    - channel: _sum/GridSellActiveEnergy
+    - channel: _sum/ProductionActiveEnergy
+    - channel: _sum/ProductionActivePower
+    - channel: _sum/ProductionDcActualPower
+    - channel: _sum/ProductionMaxActivePower
+    - channel: _sum/State
+    - channel: battery0/Soh
+    - channel: battery0/Tower0NoOfCycles
+    - channel: battery0/Tower0PackVoltage
+      device_unit: "V"
+      value_template: "{{value | int /10}}"
+    - channel: batteryInverter0/AirTemperature
+    - channel: batteryInverter0/ArmFmVersion
+    - channel: batteryInverter0/BmsPackTemperature
+    - channel: batteryInverter0/DspFmVersionMaster
+    - channel: batteryInverter0/RadiatorTemperature
+    - channel: batteryInverter0/TotalBackUpLoadPower
+    - channel: charger0/ActualPower
+    - channel: charger0/Current
+    - channel: charger0/State
+    - channel: charger0/Voltage
+      device_unit: "V"
+      value_template: "{{value | int /1000}}"
+    - channel: charger1/ActualPower
+    - channel: charger1/Current
+    - channel: charger1/State
+    - channel: charger1/Voltage
+      device_unit: "V"
+      value_template: "{{value | int /1000}}"
+    - channel: ess0/Capacity
+    - channel: ess0/DcDischargePower
+  log_level: INFO
+  language: EN
+```
+
+---
+
 ## Special configuration options
 
-### HA-`sensor_overwrite`
-
-Using this config option gives you the ability to overwrite Homeassistant Sensor definitions. You can provide multiple strings as array. Any string must contain the following systax:
-
-```
-"channel;device_class;state_class;device_unit;value_template;name "
-```
-
-| key              | descrption                                                |
-| ---------------- | --------------------------------------------------------- |
-| `channel`        | (mandatory) is used as key to select the FEMS channel.    |
-| `device_class`   | (optional) is used to define HA's sensor device_class     |
-| `state_class`    | (optional) is used to define HA's sensor state_class      |
-| `device_unit`    | (optional) is used to define HA's sensor unit (V,A,W,...) |
-| `value_template` | (optional) is used to define HA's sensor value_template   |
-| `name`           | (optional) is used to define HA's sensor friendly name    |
-
-E.g. if you want to use an other friendly name in HA for a sensor:
-
-```.csv
-sensor_overwrite:
-  - "fenecon/fems-_meta-Version;;;;;FEMS Version "
-```
-
-### Fenecon-`fems_request_channels`
-
-Is uses to define which FEMS channels should be transfered to a HA sensor.
-You can provide multiple strings as array. Any string must contain the following systax:
-
-```
-- "component/channel"
-e.g.
-- _meta/Version
-- _sum/EssSoc
-```
-
-This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available components  ~~and channels ~~ are included. Channels are missing since FEMS 2024.06.*
-As a workaround you can do a REST API call and get a List of all available channels (Thx:[rest call channels]): curl -s http://x:user@FEMS-IP:80/rest/channel/.*/.* -o channel-names.txt
+Getting channels:
+This Add-on pushes your local Fenecon FEMS configuration into a directory of your HA OS `/share/fenecon/fenecon_config.json`. All available components ~~and channels ~~ are included. Channels are missing since FEMS 2024.06._
+As a workaround you can do a REST API call and get a List of all available channels (Thx:[rest call channels]): curl -s http://x:user@FEMS-IP:80/rest/channel/._/.\* -o channel-names.txt
 
 > [!CAUTION]
 > Take care what your doing here
 
 > [!TIP]
-> Use _sum/ProductionAcActivePower to get power values of external connected sources (e.g. inverters,...) 
+> Use \_sum/ProductionAcActivePower to get power values of external connected sources (e.g. inverters,...)
 
 ---
 
@@ -131,7 +188,6 @@ topic readwrite homeassistant/sensor/fenecon/#
 ### Fenecon user and permissions
 
 You'll need Fenecons (OpenEMS) guest user password: [fems password]
-
 
 [mosquitto addon]: https://github.com/home-assistant/addons/tree/master/mosquitto
 [mosquitto addon acl]: https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md#access-control-lists-acls
