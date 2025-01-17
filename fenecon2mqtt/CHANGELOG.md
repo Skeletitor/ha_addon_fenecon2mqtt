@@ -5,7 +5,7 @@
 !!! **Breaking change. Reinstall the add-on** !!!
 
 1. save your configuration
-2. delete this add-on
+2. delete this add-on (including config files)
 3. reinstall it
 4. update the new configuration with your values (credentials, IP addresses, channels, ...)
 
