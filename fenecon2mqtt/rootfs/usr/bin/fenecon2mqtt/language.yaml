@@ -15,17 +15,20 @@ fems_channels_dict:
     EN: Current Power Consumption Phase L3
     DE: Aktuelle Verbrauchsleistung Phase L3
   - channel: _sum/EssActivePower
-    EN: Current Battery Power
-    DE: Aktuelle Batterieleistung 
+    EN: Current Inverter Power
+    DE: Aktuelle Wechselrichterleistung
   - channel: _sum/EssActivePowerL1
-    EN: Current Battery Power Phase L1
-    DE: Aktuelle Batterieleistung Phase L1
+    EN: Current Inverter Power Phase L1
+    DE: Aktuelle Wechselrichterleistung Phase L1
   - channel: _sum/EssActivePowerL2
-    EN: Current Battery Power Phase L2
-    DE: Aktuelle Batterieleistung Phase L2
+    EN: Current Inverter Power Phase L2
+    DE: Aktuelle Wechselrichterleistung Phase L2
   - channel: _sum/EssActivePowerL3
-    EN: Current Battery Power Phase L3
-    DE: Aktuelle Batterieleistung Phase L3
+    EN: Current Inverter Power Phase L3
+    DE: Aktuelle Wechselrichterleistung Phase L3
+  - channel: _sum/EssDischargePower
+    EN: Current Battery Discharge Power
+    DE: Aktuelle Batterieentladeleistung
   - channel: _sum/EssDcChargeEnergy
     EN: Total Battery Charging Energy
     DE: Gesamte Batterieladeenergie
@@ -36,17 +39,17 @@ fems_channels_dict:
     EN: Battery State of Charge
     DE: Batterieladezustand
   - channel: _sum/GridActivePower
-    EN: Current Grid Power Flow
-    DE: Aktueller Netzstromfluss
+    EN: Current Grid Power
+    DE: Aktueller Netzleistung
   - channel: _sum/GridActivePowerL1
-    EN: Current Grid Power Flow Phase L1
-    DE: Aktueller Netzstromfluss Phase L1
+    EN: Current Grid Power Phase L1
+    DE: Aktueller Netzleistung Phase L1
   - channel: _sum/GridActivePowerL2
-    EN: Current Grid Power Flow Phase L2
-    DE: Aktueller Netzstromfluss Phase L2
+    EN: Current Grid Power Phase L2
+    DE: Aktueller Netzleistung Phase L2
   - channel: _sum/GridActivePowerL3
-    EN: Current Grid Power Flow Phase L3
-    DE: Aktueller Netzstromfluss Phase L3
+    EN: Current Grid Power Phase L3
+    DE: Aktueller Netzleistung Phase L3
   - channel: _sum/GridBuyActiveEnergy
     EN: Total Grid Energy Consumption
     DE: Gesamter Netzenergieverbrauch
@@ -67,10 +70,10 @@ fems_channels_dict:
     DE: Gesamte Energieproduktion
   - channel: _sum/ProductionActivePower
     EN: Current Power Production
-    DE: Aktuelle prozierte Leistung
+    DE: Aktuelle Erzeugungsleistung
   - channel: _sum/ProductionDcActualPower
     EN: Current DC Power Production
-    DE: Aktuelle prozierte DC Leistung
+    DE: Aktuelle Erzeugungsleistung DC
   - channel: _sum/ProductionMaxActivePower
     EN: Peak Power Production
     DE: Spitzenstromproduktion
@@ -84,8 +87,8 @@ fems_channels_dict:
     EN: Battery 0 Cycle Count
     DE: Batterie 0 Ladezyklenzahl
   - channel: battery0/Tower0PackVoltage
-    EN: Battery 0 Tower0 Pack Voltage
-    DE: Batterie 0 Tower0 Packetspannung
+    EN: Battery 0 Tower 0 Pack Voltage
+    DE: Batterie 0 Turm 0 Batteriespannung
   - channel: batteryInverter0/AirTemperature
     EN: Inverter 0 Air Temperature
     DE: Inverter 0 Lufttemperatur
@@ -109,30 +112,31 @@ fems_channels_dict:
     DE: Gesamte Leistung Backup-Last
   - channel: charger0/ActualPower
     EN: Charger 0 Current Power
-    DE: Ladegerät 0 aktuelle Leistung
+    DE: PV-String 0 aktuelle Leistung
   - channel: charger0/Current
     EN: Charger 0 Current
-    DE: Ladegerät 0 Strom
+    DE: PV-String 0 Strom
   - channel: charger0/State
     EN: Charger 0 State
-    DE: Ladegerät 0 Status
+    DE: PV-String 0 Status
   - channel: charger0/Voltage
     EN: Charger 0 Voltage
-    DE: Ladegerät 0 Spannung
+    DE: PV-String 0 Spannung
   - channel: charger1/ActualPower
     EN: Charger 1 Current Power
-    DE: Ladegerät 1 aktuelle Leistung
+    DE: PV-String 1 aktuelle Leistung
   - channel: charger1/Current
     EN: Charger 1 Current
-    DE: Ladegerät 0 Strom
+    DE: PV-String 0 Strom
   - channel: charger1/State
     EN: Charger 1 State
-    DE: Ladegerät 1 Status
+    DE: PV-String 1 Status
   - channel: charger1/Voltage
     EN: Charger 1 Voltage
-    DE: Ladegerät 1 Spannung
+    DE: PV-String 1 Spannung
   - channel: ess0/Capacity
     EN: Nominal Power Storage Capacity
+    DE: Batteriekapazität
   - channel: ess0/DcDischargePower
     EN: Current Discharge Power
     DE: Aktuelle Entladeleistung

@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.3.1
+
+- added \_sum/EssDischargePower again. Please add manually '- channel: \_sum/EssDischargePower' to your config
+- Fixed typos
+- code clean up
+
 ## 0.3.0
 
 !!! **Breaking change. Reinstall the add-on** !!!

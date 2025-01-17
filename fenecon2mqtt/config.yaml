@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Fenecon2Mqtt
-version: "0.3.0"
+version: "0.3.1"
 slug: fenecon2mqtt
 description: Provides data from Fenecon Home Websocket as a Homeassistant device and HA entities. Fenecons channels are configurable.
 url: "https://github.com/Skeletitor/ha_addon_fenecon2mqtt"
@@ -38,6 +38,7 @@ options:
     - channel: _sum/EssActivePowerL3
     - channel: _sum/EssDcChargeEnergy
     - channel: _sum/EssDcDischargeEnergy
+    - channel: _sum/EssDischargePower
     - channel: _sum/EssSoc
     - channel: _sum/GridActivePower
     - channel: _sum/GridActivePowerL1
