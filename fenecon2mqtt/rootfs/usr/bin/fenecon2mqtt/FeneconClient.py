@@ -4,165 +4,216 @@ import logging
 import os
 import time
 import uuid
+from queue import Queue, Empty
+from threading import Thread
 
 import config
 import rel
 import websocket
-from jsonrpcclient import Ok, parse_json, request_json
+from jsonrpcclient import request_json
 from publish_hassio_discovery import publish_hassio_discovery
 
 
 class FeneconClient:
-    version = None
-    # Static uuids for request
+    """
+    A client for connecting to the Fenecon WebSocket and processing messages.
+    """
+
+    # Static UUIDs for requests
     uuid_str_auth = str(uuid.uuid4())
     uuid_str_getEdge = str(uuid.uuid4())
     uuid_str_getEdgeConfig_payload = str(uuid.uuid4())
     uuid_str_getEdgeConfig_request = str(uuid.uuid4())
     uuid_str_subscribe_payload = str(uuid.uuid4())
     uuid_str_subscribe_request = str(uuid.uuid4())
-    #uuid_str_getComponentChannels_payload = str(uuid.uuid4())
-    #uuid_str_getComponentChannels_req = str(uuid.uuid4()
 
     # JSON request templates
-    json_auth_passwd = request_json("authenticateWithPassword", params={"password":config.fenecon['fems_password']}, id=uuid_str_auth)
-    json_get_edge = request_json("getEdge", params={"edgeId":"0"}, id=uuid_str_getEdge)
+    json_auth_passwd = request_json("authenticateWithPassword", params={"password": config.fenecon['fems_password']}, id=uuid_str_auth)
+    json_get_edge = request_json("getEdge", params={"edgeId": "0"}, id=uuid_str_getEdge)
     json_get_edgeconfig_payload = request_json("getEdgeConfig", params={" ": " "}, id=uuid_str_getEdgeConfig_payload)
-    json_get_edgeconfig_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_edgeconfig_payload)}, id=uuid_str_getEdgeConfig_request)
-    json_subscribe_payload = request_json("subscribeChannels", params={"count":"0", "channels":config.channels2subscribe}, id=uuid_str_subscribe_payload)
-    json_subscribe_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
-    #json_get_componentChannels_payload = request_json("getChannelsOfComponent", params={"componentId": "ess0", "channelId": "_sum"}, id=uuid_str_getComponentChannels_payload)
-    #json_get_componentChannels_req = request_json("edgeRpc", params={"edgeId":"0", "payload":json.loads(json_get_componentChannels_payload)}, id=uuid_str_getComponentChannels_req)
+    json_get_edgeconfig_req = request_json("edgeRpc", params={"edgeId": "0", "payload": json.loads(json_get_edgeconfig_payload)}, id=uuid_str_getEdgeConfig_request)
+    json_subscribe_payload = request_json("subscribeChannels", params={"count": "0", "channels": config.channels2subscribe}, id=uuid_str_subscribe_payload)
+    json_subscribe_req = request_json("edgeRpc", params={"edgeId": "0", "payload": json.loads(json_subscribe_payload)}, id=uuid_str_subscribe_request)
 
     def __init__(self, mqtt):
-        logger = logging.getLogger(__name__)
-        logger.info('Init')
+        """
+        Initialize the FeneconClient and connect to the WebSocket.
+        """
+        self.logger = logging.getLogger(__name__)
+        self.logger.info('Initializing FeneconClient...')
         self.mqtt = mqtt
-        self.connect_retry_counter = 0
-        self.connect_retry_max = 10
+        self.message_queue = Queue()
+        self.running = True
+
+        # Start the message processing thread
+        self.processing_thread = Thread(target=self.process_queue, daemon=True)
+        self.processing_thread.start()
+
+        # Connect to the WebSocket
         self.connect_websocket()
 
-    def is_docker(self):
-        path = '/proc/self/cgroup'
-        return (
-            os.path.exists('/.dockerenv') or
-            os.path.isfile(path) and any('docker' in line for line in open(path))
-        )
-
     def connect_websocket(self):
-        logger = logging.getLogger(__name__)
-        logger.info('Connect to Fenecons websocket')
-
-        ws_uri = str(f"ws://{config.fenecon['fems_ip']}:8085/websocket")
-        ws = websocket.WebSocketApp(ws_uri ,
-                                         on_open=self.on_open,
-                                         on_message=self.on_message,
-                                         on_error=self.on_error,
-                                         on_close=self.on_close)
-        ws.run_forever(dispatcher=rel)
-        rel.signal(2, rel.abort)  # Keyboard Interrupt
-        rel.dispatch()
-
-    def on_message(self, ws, message):
-        logger = logging.getLogger(__name__)
-        logger.debug("on_message")
-        msg_dict = json.loads(message)
-
-        msg_id = msg_dict.get('id')
-        msg_curent_data = None
-        #msg_dict.get('params'],{}).get('payload', {}).get('method')
+        """
+        Connect to the Fenecon WebSocket with ping functionality.
+        """
+        self.logger.info('Connecting to Fenecon WebSocket...')
+        ws_uri = f"ws://{config.fenecon['fems_ip']}:8085/websocket"
 
         try:
-            msg_curent_data = msg_dict['params']['payload']['params']
-        except KeyError:
-            msg_curent_data = None
+            ws = websocket.WebSocketApp(
+                ws_uri,
+                on_open=self.on_open,
+                on_message=self.on_message,
+                on_error=self.on_error,
+                on_close=self.on_close
+            )
+            # Run the WebSocket with ping functionality
+            ws.run_forever(dispatcher=rel, ping_interval=30, ping_timeout=10)
+            rel.signal(2, rel.abort)  # Handle keyboard interrupt
+            rel.dispatch()
+        except Exception as e:
+            self.logger.error(f"WebSocket connection failed: {e}")
+            self.shutdown()
 
-        if msg_dict.get('id') is None and msg_curent_data:
-            # process subscribed data
-            keys = list(msg_curent_data.keys())
-            for key in keys:
-                hassio_uid = str(f"{config.hassio['sensor_uid_prefix']}{key}").replace("/", "-")
-                # Use not retained messages for sensor values
-                self.mqtt.publish((config.hassio['mqtt_broker_hassio_queue']+ "/" + hassio_uid).lower(), str(msg_curent_data[key]))
+    def on_message(self, ws, message):
+        """
+        Callback for receiving messages from the WebSocket.
+        """
+        self.message_queue.put(message)
 
-        elif msg_id == self.uuid_str_auth:
-            # process authorization reqest
-            # {'jsonrpc': '2.0', 'id': '3f56cce8-553f-4075-890e-30d00a61e2ca', 'error': {'code': 1003, 'message': 'Authentication failed', 'data': []}}
-            if msg_dict.get('error') is None:
-                logger.info("FEMS Authentication successfull")
-                return
+    def process_queue(self):
+        """
+        Process messages from the queue in batches.
+        """
+        while self.running:
+            try:
+                batch = []
+                start_time = time.time()
 
+                # Collect messages for up to 100ms or until the queue is empty
+                while time.time() - start_time < 0.1:
+                    try:
+                        message = self.message_queue.get(timeout=0.05)
+                        batch.append(message)
+                    except Empty:
+                        break
+
+                # Process the batch
+                for message in batch:
+                    self._process_message(message)
+
+                # Mark tasks as done
+                for _ in batch:
+                    self.message_queue.task_done()
+
+                # Sleep briefly if the queue is empty
+                if not batch:
+                    time.sleep(0.05)
+            except Exception as e:
+                self.logger.error(f"Error processing message queue: {e}")
+
+    def _process_message(self, message):
+        """
+        Process a single message from the WebSocket.
+        """
+        try:
+            msg_dict = json.loads(message)
+            msg_id = msg_dict.get('id')
+            msg_current_data = msg_dict.get('params', {}).get('payload', {}).get('params')
+
+            if msg_id is None and msg_current_data:
+                # Process subscribed data
+                for key, value in msg_current_data.items():
+                    hassio_uid = f"{config.hassio['sensor_uid_prefix']}{key}".replace("/", "-")
+                    self.mqtt.publish(f"{config.hassio['mqtt_broker_hassio_queue']}/{hassio_uid}".lower(), str(value))
+            elif msg_id == self.uuid_str_auth:
+                self._handle_auth_response(msg_dict)
+            elif msg_id == self.uuid_str_getEdge:
+                self._handle_get_edge_response(msg_dict)
+            elif msg_id == self.uuid_str_getEdgeConfig_request:
+                self._handle_edge_config_response(msg_dict)
+        except Exception as e:
+            self.logger.error(f"Error processing message: {e}")
+
+    def _handle_auth_response(self, msg_dict):
+        """
+        Handle the response to the authentication request.
+        """
+        if msg_dict.get('error') is None:
+            self.logger.info("FEMS Authentication successful.")
+        else:
             error_code = msg_dict['error']['code']
             error_msg = msg_dict['error']['message']
-            logger.error(f"FEMS Authentication failed. Error ({error_code}): {error_msg}")
-            logger.error('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
-            time.sleep(5)
-            quit()
-        elif msg_id == self.uuid_str_getEdge:
-            logger.info('getEdge received')
-            # process edge data
+            self.logger.error(f"FEMS Authentication failed. Error ({error_code}): {error_msg}")
+            self.shutdown()
+
+    def _handle_get_edge_response(self, msg_dict):
+        """
+        Handle the response to the getEdge request.
+        """
+        self.logger.info("getEdge response received.")
+        try:
+            self.version = msg_dict['result']['edge']['version']
+        except KeyError:
+            self.version = "N/A"
+
+    def _handle_edge_config_response(self, msg_dict):
+        """
+        Handle the response to the getEdgeConfig request.
+        """
+        self.logger.info("EdgeConfig response received. Clearing old Home Assistant discovery topics.")
+        self.mqtt.clear_ha_discovery_topic()
+        self.logger.info("Publishing new Home Assistant discovery topics.")
+        publish_hassio_discovery(self.mqtt, msg_dict, self.version)
+
+        if self.is_docker():
+            self.logger.info("Dumping Fenecon configuration to local Docker filesystem.")
             try:
-                self.version = msg_dict['result']['edge']['version']
-            except Exception:
-                self.version = "N/A"
-            return
-        elif msg_id == self.uuid_str_getEdgeConfig_request:
-            # process edge configuration data
-            logger.info("Edgeconfig received -> purge old Homeassistant discovery topic")
-            self.mqtt.clear_ha_discovery_topic()
-
-            logger.debug("Edgeconfig received -> publish new Homeassistant discovery topic")
-            # Iterate over all components and ask for their channels
-            #for comp in config.fenecon['fems_request_components']:
-            #    print(comp)
-            #logger.warning(self.json_get_componentChannels_req)
-            #ws.send(self.json_get_componentChannels_req)
-
-            publish_hassio_discovery(self.mqtt, msg_dict, self.version)
-            if self.is_docker():
-                logger.info("Dump Fenecon configuration to local docker filesystem")
-                try:
-                    with open('/share/fenecon/fenecon_config.json', 'w') as fp:
-                        json.dump(msg_dict, fp)
-                except Exception:
-                    logger.error("Dump Fenecon configration to local docker filesystem failed")
-            return
-        #elif msg_id == self.uuid_str_getComponentChannels_req:
-        #    logger.info("Channel received for component -> purge old Homeassistant discovery topic")
-        #    return
+                with open('/share/fenecon/fenecon_config.json', 'w') as fp:
+                    json.dump(msg_dict, fp)
+            except Exception as e:
+                self.logger.error(f"Failed to dump Fenecon configuration: {e}")
 
     def on_error(self, ws, error):
-        logger = logging.getLogger(__name__)
-        logger.error(f'Fenecon connection error: {error}')
-        logger.error('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
-        time.sleep(5)
-        quit()
+        """
+        Callback for WebSocket errors.
+        """
+        self.logger.error(f"WebSocket error: {error}")
+        self.shutdown()
 
     def on_close(self, ws, close_status_code, close_msg):
-        logger = logging.getLogger(__name__)
-        logger.warning(f'Fenecon sonnection closed. Code:    {close_status_code}')
-        logger.warning(f'                           Message: {close_msg}')
-        #logger.warning('try again in 30 seconds')
-        rel.abort()
-        logger.warning('Wait 5 seconds. Shut down. Let Watchdog restart this add-on.')
-        time.sleep(5)
-        quit()
+        """
+        Callback for WebSocket closure.
+        """
+        self.logger.warning(f"WebSocket closed. Code: {close_status_code}, Message: {close_msg}")
+        self.shutdown()
 
     def on_open(self, ws):
-        logger = logging.getLogger(__name__)
-        self.connect_retry_counter = 0
-        # auth
-        logger.debug('Fenecon opened connection -> send authenticate')
+        """
+        Callback for WebSocket opening.
+        """
+        self.logger.info("WebSocket connection opened. Sending authentication request.")
         ws.send(self.json_auth_passwd)
         time.sleep(0.5)
-        # get edge
-        logger.debug('Fenecon opened connection -> send getEdge')
         ws.send(self.json_get_edge)
         time.sleep(0.5)
-        # get edgeConfig
-        logger.debug('Fenecon opened connection -> send getEdge configuration')
         ws.send(self.json_get_edgeconfig_req)
         time.sleep(0.5)
-        # Subscribe
-        logger.debug('Fenecon opened connection -> send subscribe')
         ws.send(self.json_subscribe_req)
+
+    def is_docker(self):
+        """
+        Check if the application is running in a Docker container.
+        """
+        return os.path.exists('/.dockerenv') or any('docker' in line for line in open('/proc/self/cgroup', 'r'))
+
+    def shutdown(self):
+        """
+        Cleanly shut down the client.
+        """
+        self.logger.info("Shutting down FeneconClient...")
+        self.running = False
+        self.processing_thread.join(timeout=5)
+        rel.abort()
+        time.sleep(5)
+        quit()

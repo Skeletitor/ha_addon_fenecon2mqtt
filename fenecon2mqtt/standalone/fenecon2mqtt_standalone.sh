@@ -9,70 +9,162 @@ if [ ! -f /data/options.json ]; then
         "mqtt_broker_port": 1883,
         "mqtt_broker_user": null,
         "mqtt_broker_passwd": null,
-        "mqtt_broker_keepalive": 60,
-        "mqtt_broker_hassio_discovery_queue": "homeassistant/sensor/fenecon",
-        "mqtt_broker_hassio_queue": "fenecon",
-        "sensor_overwrite": [
-            "channel;device_class;state_class;device_unit;value_template;name "
-        ],
-        "sensor_uid_prefix": "fems-",
         "sensor_name_prefix": "FEMS: "
     },
     "fenecon": {
         "fems_ip": <YOUR_FEMS_IP>,
         "fems_password": "user",
-        "fems_request_channels": [
-            "_sum/ConsumptionActiveEnergy",
-            "_sum/ConsumptionActivePower",
-            "_sum/ConsumptionActivePowerL1",
-            "_sum/ConsumptionActivePowerL2",
-            "_sum/ConsumptionActivePowerL3",
-            "_sum/ConsumptionMaxActivePower",
-            "_sum/EssActivePower",
-            "_sum/EssActivePowerL1",
-            "_sum/EssActivePowerL2",
-            "_sum/EssActivePowerL3",
-            "_sum/EssDcChargeEnergy",
-            "_sum/EssDcDischargeEnergy",
-            "_sum/EssSoc",
-            "_sum/GridActivePower",
-            "_sum/GridActivePowerL1",
-            "_sum/GridActivePowerL2",
-            "_sum/GridActivePowerL3",
-            "_sum/GridBuyActiveEnergy",
-            "_sum/GridMaxActivePower",
-            "_sum/GridMinActivePower",
-            "_sum/GridMode",
-            "_sum/GridSellActiveEnergy",
-            "_sum/ProductionActiveEnergy",
-            "_sum/ProductionActivePower",
-            "_sum/ProductionDcActualPower",
-            "_sum/ProductionMaxActivePower",
-            "_sum/State",
-            "battery0/Soh",
-            "battery0/Tower0NoOfCycles",
-            "battery0/Tower0PackVoltage",
-            "batteryInverter0/AirTemperature",
-            "batteryInverter0/ArmFmVersion",
-            "batteryInverter0/BmsPackTemperature",
-            "batteryInverter0/DspFmVersionMaster",
-            "batteryInverter0/DspFmVersionSlave",
-            "batteryInverter0/RadiatorTemperature",
-            "charger0/ActualPower",
-            "charger0/ActualPower",
-            "charger0/Current",
-            "charger0/State",
-            "charger0/Voltage",
-            "charger1/ActualPower",
-            "charger1/ActualPower",
-            "charger1/Current",
-            "charger1/State",
-            "charger1/Voltage",
-            "charger1/Voltage",
-            "ess0/Capacity",
-            "ess0/DcDischargePower"
-        ]
     },
+    "sensor_language": "EN",
+    "fems_channels": [
+        {
+          "channel":  "_sum/ConsumptionActiveEnergy"
+        },
+        {
+          "channel":  "_sum/ConsumptionActivePower"
+        },
+        {
+          "channel":  "_sum/ConsumptionActivePowerL1"
+        },
+        {
+          "channel":  "_sum/ConsumptionActivePowerL2"
+        },
+        {
+          "channel": " _sum/ConsumptionActivePowerL3"
+        },
+        {
+          "channel":  "_sum/ConsumptionMaxActivePower"
+        },
+        {
+          "channel":  "_sum/EssActivePower"
+        },
+        {
+          "channel":  "_sum/EssActivePowerL1"
+        },
+        {
+          "channel":  "_sum/EssActivePowerL2"
+        },
+        {
+          "channel":  "_sum/EssActivePowerL3"
+        },
+        {
+          "channel":  "_sum/EssDcChargeEnergy"
+        },
+        {
+          "channel":  "_sum/EssDcDischargeEnergy"
+        },
+        {
+          "channel":  "_sum/EssDischargePower"
+        },
+        {
+          "channel":  "_sum/EssSoc"
+        },
+        {
+          "channel":  "_sum/GridActivePower"
+        },
+        {
+          "channel": " _sum/GridActivePowerL1"
+        },
+        {
+          "channel":  "_sum/GridActivePowerL2"
+        },
+        {
+          "channel":  "_sum/GridActivePowerL3"
+        },
+        {
+          "channel": " _sum/GridBuyActiveEnergy"
+        },
+        {
+          "channel":  "_sum/GridMaxActivePower"
+        },
+        {
+          "channel": " _sum/GridMinActivePower"
+        },
+        {
+          "channel":  "_sum/GridMode"
+        },
+        {
+          "channel": " _sum/GridSellActiveEnergy"
+        },
+        {
+          "channel":  "_sum/ProductionActiveEnergy"
+        },
+        {
+          "channel": " _sum/ProductionActivePower"
+        },
+        {
+          "channel": " _sum/ProductionDcActualPower"
+        },
+        {
+          "channel": " _sum/ProductionMaxActivePower"
+        },
+        {
+          "channel": " _sum/State"
+        },
+        {
+          "channel":  "battery0/Soh"
+        },
+        {
+          "channel":  "battery0/Tower0NoOfCycles"
+        },
+        {
+          "channel": " battery0/Tower0PackVoltage"
+        },
+        {
+          "channel":  "batteryInverter0/AirTemperature"
+        },
+        {
+          "channel":  "batteryInverter0/ArmFmVersion"
+        },
+        {
+          "channel":  "batteryInverter0/BmsPackTemperature"
+        },
+        {
+          "channel":  "batteryInverter0/DspFmVersionMaster"
+        },
+        {
+          "channel":  "batteryInverter0/DspFmVersionSlave"
+        },
+        {
+          "channel":  "batteryInverter0/RadiatorTemperature"
+        },
+        {
+          "channel":  "charger0/ActualPower"
+        },
+        {
+          "channel":  "charger0/Current"
+        },
+        {
+          "channel":  "charger0/State"
+        },
+        {
+          "channel":  "charger0/Voltage",
+          "device_unit": "V",
+          "value_template": "{{value | int /10}}",
+          "icon": "mdi:air-filter"
+        },
+        {
+          "channel": " charger1/ActualPower"
+        },
+        {
+          "channel":  "charger1/Current"
+        },
+        {
+          "channel":  "charger1/State"
+        },
+        {
+          "channel":  "charger1/Voltage"
+        },
+        {
+          "channel":  "charger1/Voltage"
+        },
+        {
+          "channel":  "ess0/Capacity"
+        },
+        {
+          "channel":  "ess0/DcDischargePower"
+        }
+    ],
     "log_level": "INFO"
 }
 EOF

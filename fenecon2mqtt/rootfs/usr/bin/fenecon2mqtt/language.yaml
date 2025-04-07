@@ -1,4 +1,7 @@
 fems_channels_dict:
+  - channel: _meta/IsEssChargeFromGridAllowed
+    EN: Battery Charge From Grid Allowed
+    DE: Batterieladung aus dem Netz Erlaubt
   - channel: _sum/ConsumptionActiveEnergy
     EN: Total Energy Consumption
     DE: Gesamtenergieverbrauch
@@ -89,6 +92,9 @@ fems_channels_dict:
   - channel: battery0/Tower0PackVoltage
     EN: Battery 0 Tower 0 Pack Voltage
     DE: Batterie 0 Turm 0 Batteriespannung
+  - channel: battery0/State
+    EN: Battery State
+    DE: Batterie Status
   - channel: batteryInverter0/AirTemperature
     EN: Inverter 0 Air Temperature
     DE: Inverter 0 Lufttemperatur
@@ -127,7 +133,7 @@ fems_channels_dict:
     DE: PV-String 1 aktuelle Leistung
   - channel: charger1/Current
     EN: Charger 1 Current
-    DE: PV-String 0 Strom
+    DE: PV-String 1 Strom
   - channel: charger1/State
     EN: Charger 1 State
     DE: PV-String 1 Status
@@ -140,3 +146,48 @@ fems_channels_dict:
   - channel: ess0/DcDischargePower
     EN: Current Discharge Power
     DE: Aktuelle Entladeleistung
+  - channel: _meta/IsEssChargeFromGridAllowed
+    EN: Battery Charge From Grid Allowed
+    DE: Batterieladung aus dem Netz Erlaubt
+  - channel: battery0/State
+    EN: Battery State
+    DE: Batterie Status
+  - channel: ctrlEssLimiter14a0/RestrictionMode
+    EN: Grid External Limitation
+    DE: Externe Limitierung
+  - channel: ctrlGridOptimizedCharge0/State
+    EN: Grid Optimized Charge State
+    DE: Netzoptimierte Ladung Status
+  - channel: ctrlGridOptimizedCharge0/_PropertyEnabled
+    EN: Grid Optimized Charge Enabled
+    DE: Netzoptimierte  Ladung Aktiv
+  - channel: ctrlEmergencyCapacityReserve0/ActualReserveSoc
+    EN: Backup Power Reserve State of Charge
+    DE: Backup Power Reserve Kapazität
+  - channel: evcs0/ChargePower
+    EN: EV Charging Station Charge Power
+    DE: EV Ladestation Ladeleistung
+  - channel: evcs0/State
+    EN: EV Charging Station System State
+    DE: EV Ladestation Systemstatus
+  - channel: evcs0/ChargeMode
+    EN: EV Charging Station Charge Mode
+    DE: EV Ladestation Lademodus
+  - channel: evcs0/Status
+    EN: EV Charging Station Status
+    DE: EV Ladestation Status
+  - channel: evcs0/ActiveConsumptionEnergy
+    EN: EV Charging Station Total Energy
+    DE: EV Ladestation Gesamter Energieverbrauch 
+  - channel: evcs0/Plug
+    EN: EV Charging Station Plug Status
+    DE: EV Ladestation Stecker Status
+  - channel: evcs0/ChargeState
+    EN: EV Charging Station Charge State
+    DE: EV Ladestation Ladestatus
+  - channel: evcs0/EnergySession
+    EN: EV Charging Station Energy Session
+    DE: EV Ladestation Ladesitzung Energieverbrauch
+  - channel: ctrlEvcs0/_PropertyEnabledCharging
+    EN: EV Charging Station Charging Enabled
+    DE: EV Ladestation Laden Aktiviert

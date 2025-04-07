@@ -1,5 +1,14 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.4.0
+
+- switched to threaded message handling process
+- added more sensor names in translations
+- refactor code
+- addes value mappings for evcs charge states and charge from grid allowed state
+- modified standalone script
+- upgrade rel package
+
 ## 0.3.1
 
 - added \_sum/EssDischargePower again. Please add manually '- channel: \_sum/EssDischargePower' to your config
