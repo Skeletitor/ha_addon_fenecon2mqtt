@@ -1,5 +1,4 @@
 jsonrpcclient==4.0.3
 paho_mqtt==2.1.0
-rel==0.4.9.20
 websocket_client==1.8.0
 pyyaml==6.0.2

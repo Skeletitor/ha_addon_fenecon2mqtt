@@ -8,7 +8,6 @@ from queue import Queue, Empty
 from threading import Thread
 
 import config
-import rel
 import websocket
 from jsonrpcclient import request_json
 from publish_hassio_discovery import publish_hassio_discovery
@@ -54,26 +53,37 @@ class FeneconClient:
 
     def connect_websocket(self):
         """
-        Connect to the Fenecon WebSocket with ping functionality.
+        Connect to the Fenecon WebSocket with ping functionality in a dedicated thread.
         """
         self.logger.info('Connecting to Fenecon WebSocket...')
         ws_uri = f"ws://{config.fenecon['fems_ip']}:8085/websocket"
 
-        try:
-            ws = websocket.WebSocketApp(
-                ws_uri,
-                on_open=self.on_open,
-                on_message=self.on_message,
-                on_error=self.on_error,
-                on_close=self.on_close
-            )
-            # Run the WebSocket with ping functionality
-            ws.run_forever(dispatcher=rel, ping_interval=30, ping_timeout=10)
-            rel.signal(2, rel.abort)  # Handle keyboard interrupt
-            rel.dispatch()
-        except Exception as e:
-            self.logger.error(f"WebSocket connection failed: {e}")
-            self.shutdown()
+        def run_ws():
+            try:
+                ws = websocket.WebSocketApp(
+                    ws_uri,
+                    on_open=self.on_open,
+                    on_message=self.on_message,
+                    on_error=self.on_error,
+                    on_close=self.on_close
+                )
+                # Run the WebSocket with ping functionality
+                ws.run_forever(ping_interval=30, ping_timeout=10)
+            except Exception as e:
+                self.logger.error(f"WebSocket connection failed: {e}")
+                self.reconnect_websocket()
+
+        # Start the WebSocket in a dedicated thread
+        websocket_thread = Thread(target=run_ws, daemon=True)
+        websocket_thread.start()
+
+    def reconnect_websocket(self):
+        """
+        Attempt to reconnect to the WebSocket with a delay.
+        """
+        self.logger.info("Reconnecting to WebSocket in 5 seconds...")
+        time.sleep(5)  # Wait before attempting to reconnect
+        self.connect_websocket()
 
     def on_message(self, ws, message):
         """
@@ -179,14 +189,16 @@ class FeneconClient:
         Callback for WebSocket errors.
         """
         self.logger.error(f"WebSocket error: {error}")
-        self.shutdown()
+        self.logger.info("Attempting to reconnect...")
+        self.reconnect_websocket()
 
     def on_close(self, ws, close_status_code, close_msg):
         """
         Callback for WebSocket closure.
         """
         self.logger.warning(f"WebSocket closed. Code: {close_status_code}, Message: {close_msg}")
-        self.shutdown()
+        self.logger.info("Attempting to reconnect...")
+        self.reconnect_websocket()
 
     def on_open(self, ws):
         """
@@ -214,6 +226,5 @@ class FeneconClient:
         self.logger.info("Shutting down FeneconClient...")
         self.running = False
         self.processing_thread.join(timeout=5)
-        rel.abort()
         time.sleep(5)
         quit()

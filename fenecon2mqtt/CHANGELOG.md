@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.4.1
+
+- performance optimization
+- changed reconnect handling
+- remove of rel
+
 ## 0.4.0
 
 - switched to threaded message handling process
