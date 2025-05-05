@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.4.2
+
+- optimze internal timeouts
+- changed reconnect logic. watchdog should restart it clean 
+
 ## 0.4.1
 
 - performance optimization

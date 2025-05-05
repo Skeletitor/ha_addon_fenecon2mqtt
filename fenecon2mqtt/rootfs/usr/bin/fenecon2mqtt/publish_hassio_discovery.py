@@ -66,6 +66,9 @@ val_tmpl_change_from_grid_allowed = '''{% set mapper = {
 {% set state = value | string %}
 {{ mapper[state] if state in mapper else 'Unknown' }}'''
 
+charger_state_re = re.compile(r'charger\d+/State')
+evcs_charge_state_re = re.compile(r'evcs\d+/ChargeState')
+
 def get_entity_device_class(unit):
     """
     Get the device class based on the unit of measurement.
@@ -119,11 +122,11 @@ def get_entity_value_template(channel):
     Returns:
         str: The value template.
     """
-    if re.search(r'charger\d+/State', channel):
+    if charger_state_re.search(channel):
         return val_tmpl_state
     elif channel == "_sum/GridMode":
         return val_tmpl_gridmode
-    elif re.search(r'evcs\d+/ChargeState', channel):
+    elif evcs_charge_state_re.search(channel):
         return val_tmpl_charging_state
     elif channel == "_meta/IsEssChargeFromGridAllowed":
         return val_tmpl_change_from_grid_allowed

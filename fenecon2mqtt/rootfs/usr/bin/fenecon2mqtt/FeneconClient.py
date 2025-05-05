@@ -5,7 +5,7 @@ import os
 import time
 import uuid
 from queue import Queue, Empty
-from threading import Thread
+from threading import Thread, active_count
 
 import config
 import websocket
@@ -43,6 +43,8 @@ class FeneconClient:
         self.mqtt = mqtt
         self.message_queue = Queue()
         self.running = True
+        self.ws = None  # Track WebSocketApp instance
+        self.websocket_thread = None  # Track WebSocket thread
 
         # Start the message processing thread
         self.processing_thread = Thread(target=self.process_queue, daemon=True)
@@ -55,35 +57,37 @@ class FeneconClient:
         """
         Connect to the Fenecon WebSocket with ping functionality in a dedicated thread.
         """
-        self.logger.info('Connecting to Fenecon WebSocket...')
+        self.logger.info(f"Connecting to Fenecon WebSocket... Active threads: {active_count()}")
         ws_uri = f"ws://{config.fenecon['fems_ip']}:8085/websocket"
 
         def run_ws():
             try:
-                ws = websocket.WebSocketApp(
+                self.ws = websocket.WebSocketApp(
                     ws_uri,
                     on_open=self.on_open,
                     on_message=self.on_message,
                     on_error=self.on_error,
                     on_close=self.on_close
                 )
-                # Run the WebSocket with ping functionality
-                ws.run_forever(ping_interval=30, ping_timeout=10)
+                # Run with ping_interval and ping_timeout
+                self.ws.run_forever(ping_interval=60, ping_timeout=20)
             except Exception as e:
                 self.logger.error(f"WebSocket connection failed: {e}")
-                self.reconnect_websocket()
+                time.sleep(1)  # Brief pause for logging
+                os._exit(0)
+            finally:
+                # Ensure WebSocket is marked as closed
+                self.ws = None
 
-        # Start the WebSocket in a dedicated thread
-        websocket_thread = Thread(target=run_ws, daemon=True)
-        websocket_thread.start()
+        # Clean up previous WebSocket if it exists
+        if self.ws is not None:
+            self.logger.debug("Closing existing WebSocket connection...")
+            self.ws.close()
+            self.ws = None
 
-    def reconnect_websocket(self):
-        """
-        Attempt to reconnect to the WebSocket with a delay.
-        """
-        self.logger.info("Reconnecting to WebSocket in 5 seconds...")
-        time.sleep(5)  # Wait before attempting to reconnect
-        self.connect_websocket()
+        # Start new WebSocket thread
+        self.websocket_thread = Thread(target=run_ws, daemon=True)
+        self.websocket_thread.start()
 
     def on_message(self, ws, message):
         """
@@ -103,7 +107,7 @@ class FeneconClient:
                 # Collect messages for up to 100ms or until the queue is empty
                 while time.time() - start_time < 0.1:
                     try:
-                        message = self.message_queue.get(timeout=0.05)
+                        message = self.message_queue.get(timeout=0.1)
                         batch.append(message)
                     except Empty:
                         break
@@ -115,10 +119,6 @@ class FeneconClient:
                 # Mark tasks as done
                 for _ in batch:
                     self.message_queue.task_done()
-
-                # Sleep briefly if the queue is empty
-                if not batch:
-                    time.sleep(0.05)
             except Exception as e:
                 self.logger.error(f"Error processing message queue: {e}")
 
@@ -155,7 +155,8 @@ class FeneconClient:
             error_code = msg_dict['error']['code']
             error_msg = msg_dict['error']['message']
             self.logger.error(f"FEMS Authentication failed. Error ({error_code}): {error_msg}")
-            self.shutdown()
+            time.sleep(1)  # Brief pause for logging
+            os._exit(0)
 
     def _handle_get_edge_response(self, msg_dict):
         """
@@ -186,19 +187,19 @@ class FeneconClient:
 
     def on_error(self, ws, error):
         """
-        Callback for WebSocket errors.
+        Callback for WebSocket errors. Exit program immediately.
         """
         self.logger.error(f"WebSocket error: {error}")
-        self.logger.info("Attempting to reconnect...")
-        self.reconnect_websocket()
+        time.sleep(1)  # Brief pause for logging
+        os._exit(0)
 
     def on_close(self, ws, close_status_code, close_msg):
         """
-        Callback for WebSocket closure.
+        Callback for WebSocket closure. Exit program immediately.
         """
         self.logger.warning(f"WebSocket closed. Code: {close_status_code}, Message: {close_msg}")
-        self.logger.info("Attempting to reconnect...")
-        self.reconnect_websocket()
+        time.sleep(1)  # Brief pause for logging
+        os._exit(0)
 
     def on_open(self, ws):
         """
@@ -218,13 +219,3 @@ class FeneconClient:
         Check if the application is running in a Docker container.
         """
         return os.path.exists('/.dockerenv') or any('docker' in line for line in open('/proc/self/cgroup', 'r'))
-
-    def shutdown(self):
-        """
-        Cleanly shut down the client.
-        """
-        self.logger.info("Shutting down FeneconClient...")
-        self.running = False
-        self.processing_thread.join(timeout=5)
-        time.sleep(5)
-        quit()
