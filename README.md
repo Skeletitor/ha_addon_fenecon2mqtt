@@ -1,6 +1,17 @@
 # Home Assistant Add-on repository for Fenecon2Mqtt
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FSkeletitor%2Fha_addon_fenecon2mqtt)
+### *Retirement announcement for Fenecon2MQTT add-on*
+
+### When’s the retirement party?
+>Fenecon2MQTT will officially kick back and sip piña coladas starting June 12, 2025. After that, no more updates or support, folks!
+### Where to go?
+>Hop on over to the [HA-OpenEMS](https://community.home-assistant.io/t/ha-openems-fems-and-openems-integration/852706) integration for all your energy management needs. It’s the new kid on the block, and it’s ready to rock your Home Assistant setup.
+### Got questions?
+>Check out the [HA-OpenEMS](https://community.home-assistant.io/t/ha-openems-fems-and-openems-integration/852706) docs or swing by the community forums to chat with other smart home nerds.
+
+Thanks for all the love you’ve shown Fenecon2MQTT over the years. 
+
+It’s been a wild ride, but it’s time for this add-on to retire and let [HA-OpenEMS](https://community.home-assistant.io/t/ha-openems-fems-and-openems-integration/852706) take the spotlight. Let’s raise a virtual toast to new beginnings! 🥂
 
 ## Add-ons
 
